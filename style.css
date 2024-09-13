@@ -15,10 +15,10 @@ header {
 }
 
 header h1 {
-    font-weight: 900;
-    font-size: 2.5rem;
+    font-family: 'SUSE', sans-serif;
+    font-weight: 700; /* Bold weight */
+    font-size: 2rem; /* Adjusted size for header */
     margin: 0;
-    color: #333;
 }
 
 /* Main content styling */
@@ -32,8 +32,8 @@ main {
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: 20rem; /* Larger size for the "Hi" */
-    font-weight: 100;
+    font-size: 20rem; /* Increased size for 'Hi :)' */
+    font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
 }
@@ -47,5 +47,5 @@ footer {
 
 footer p {
     margin: 0;
-    font-weight: 900;
+    font-family: 'SUSE', sans-serif;
 }
