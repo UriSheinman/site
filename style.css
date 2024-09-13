@@ -1,7 +1,7 @@
 /* Basic reset and styling */
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'SUSE', sans-serif;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -15,10 +15,10 @@ header {
 }
 
 header h1 {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 3rem;
+    font-weight: 900;
+    font-size: 2.5rem;
     margin: 0;
+    color: #333;
 }
 
 /* Main content styling */
@@ -31,9 +31,9 @@ main {
 }
 
 main h2 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 15rem; /* Large size to fill the page */
-    font-weight: 200;
+    font-family: 'SUSE', sans-serif;
+    font-size: 20rem; /* Larger size for the "Hi" */
+    font-weight: 100;
     margin: 0;
     color: #333; /* Dark gray color for contrast */
 }
@@ -47,5 +47,5 @@ footer {
 
 footer p {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
 }
