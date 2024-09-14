@@ -6,7 +6,6 @@ body {
     flex-direction: column;
     height: 100vh;
     background-color: #f0f0f0; /* Light gray background */
-    overflow: hidden; /* Ensure no scrollbars appear */
 }
 
 /* Header styling */
@@ -28,47 +27,25 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     text-align: center;
 }
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: min(80vw, 80vh); /* Scale according to the viewport size */
+    font-size: 20rem; /* Increased size for 'Hi :)' */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
-    white-space: nowrap; /* Prevents breaking the text into multiple lines */
-    position: relative;
-    transition: all 0.3s ease;
 }
 
-/* Initially hide the clues */
-.hidden {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s ease;
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #e1e1e1; /* Slightly darker background */
 }
 
-/* Animation for the clickable text */
-main h2.clicked {
-    animation: catchMe 1s infinite;
-    cursor: pointer;
-    color: #ff6347; /* Change color when clicked */
-}
-
-/* Keyframes for the "catch me" animation */
-@keyframes catchMe {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(10px); }
-    50% { transform: translateX(-10px); }
-    75% { transform: translateX(5px); }
-    100% { transform: translateX(0); }
-}
-
-/* Message that shows once clues are revealed */
-main p {
-    color: #28a745;
-    font-size: 1.5rem;
-    margin-top: 20px;
+footer p {
+    margin: 0;
+    font-family: 'SUSE', sans-serif;
 }
