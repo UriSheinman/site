@@ -43,14 +43,14 @@ main h2 {
     transition: all 0.3s ease;
 }
 
-/* Hidden paragraphs */
+/* Initially hide the clues */
 .hidden {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.5s ease;
 }
 
-/* Clickable and animated text */
+/* Animation for the clickable text */
 main h2.clicked {
     animation: catchMe 1s infinite;
     cursor: pointer;
@@ -67,20 +67,8 @@ main h2.clicked {
 }
 
 /* Message that shows once clues are revealed */
-main p#clue2 {
+main p {
     color: #28a745;
     font-size: 1.5rem;
     margin-top: 20px;
-}
-
-/* Footer styling */
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #e1e1e1; /* Slightly darker background */
-}
-
-footer p {
-    margin: 0;
-    font-family: 'SUSE', sans-serif;
 }
