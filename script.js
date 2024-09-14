@@ -17,20 +17,18 @@ function redirectToUriSheinman() {
 let clickCount = 0; // Counter to track clicks
 
 function handleClick() {
-    const h2 = document.querySelector('main h2');
     clickCount++;
     
     switch (clickCount) {
         case 1:
-            h2.textContent = "I'm Coming Like a Storm Into Your Town";
+            alert("I'm Coming Like a Storm Into Your Town");
             break;
         case 2:
-            h2.textContent = "I'm Higher Than The Hope That You Brought Down";
+            alert("I'm Higher Than The Hope That You Brought Down");
             break;
         case 3:
             alert("You Can't Catch Me Now...");
-            h2.textContent = "Hi :)"; // Reset the text
-            clickCount = 0; // Reset the click count
+            clickCount = 0; // Reset the click count for the next round
             break;
         default:
             break;
