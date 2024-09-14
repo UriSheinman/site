@@ -12,7 +12,7 @@ body {
 /* Header styling */
 header {
     text-align: center;
-    margin: 20px 0;
+    margin: 10px 0; /* Reduced margin for better spacing */
 }
 
 header h1 {
@@ -34,21 +34,25 @@ main {
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: calc(10vw + 10vh); /* Responsive font size based on viewport dimensions */
+    font-size: calc(8vw + 8vh); /* Adjust font size so it fits the screen better */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
     white-space: nowrap; /* Prevents breaking the text into multiple lines */
     line-height: 1; /* Ensures no extra line spacing */
     position: relative;
+    max-width: 100vw; /* Ensure the text doesn’t overflow horizontally */
+    max-height: calc(100vh - 60px); /* Footer height taken into account */
     transition: all 0.3s ease;
 }
 
 /* Footer styling */
 footer {
     text-align: center;
+    height: 40px; /* Fixed height for footer */
     padding: 10px 0;
     background-color: #e1e1e1; /* Slightly darker background */
+    flex-shrink: 0; /* Ensure footer stays at the bottom */
 }
 
 footer p {
