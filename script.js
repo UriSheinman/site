@@ -16,22 +16,22 @@ function redirectToUriSheinman() {
     window.location.href = 'https://urisheinman.com';
 }
 
-// Function to reveal the first clue when the main content is clicked or touched
+// Function to handle the first click or tap, revealing the first clue
 function revealClue1() {
     const clue1 = document.getElementById('clue1');
+    const h2 = document.getElementById('catch-me');
     if (clue1.classList.contains('hidden')) {
         clue1.classList.remove('hidden');
         clue1.style.visibility = 'visible';
         clue1.style.opacity = 1;
+        h2.classList.add('clicked'); // Start shaking animation
     }
 }
 
-// Function to add 'catch me' effect and reveal the second clue
-function catchMeEffect() {
-    const h2 = document.getElementById('catch-me');
+// Function to handle the second interaction
+function revealClue2() {
     const clue2 = document.getElementById('clue2');
     if (!hasClicked) {
-        h2.classList.add('clicked'); // Start animation on first click
         clue2.classList.remove('hidden'); // Reveal the second clue
         hasClicked = true;
     } else {
@@ -39,7 +39,9 @@ function catchMeEffect() {
     }
 }
 
-// Attach event listeners for both desktop and mobile (click/touch)
+// Attach event listeners for both desktop and mobile
 document.querySelector('header').addEventListener('click', redirectToUriSheinman);
-document.querySelector('main h2').addEventListener('click', catchMeEffect);
+document.querySelector('main h2').addEventListener('click', revealClue1);
 document.querySelector('main h2').addEventListener('touchstart', revealClue1); // Mobile-friendly event
+document.getElementById('clue1').addEventListener('click', revealClue2); // Step 2 trigger
+document.getElementById('clue1').addEventListener('touchstart', revealClue2); // Mobile-friendly event for Step 2
