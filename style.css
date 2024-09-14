@@ -6,6 +6,7 @@ body {
     flex-direction: column;
     height: 100vh;
     background-color: #f0f0f0; /* Light gray background */
+    overflow: hidden; /* Ensure no scrollbars appear */
 }
 
 /* Header styling */
@@ -32,7 +33,7 @@ main {
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: 20vw; /* Use viewport width to scale the size of 'Hi :)' */
+    font-size: min(35vw, 35vh); /* Scale according to the smaller of viewport width or height */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
