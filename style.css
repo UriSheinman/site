@@ -6,6 +6,7 @@ body {
     flex-direction: column;
     height: 100vh;
     background-color: #f0f0f0; /* Light gray background */
+    overflow: hidden; /* Prevent scrolling */
 }
 
 /* Header styling */
@@ -28,14 +29,19 @@ main {
     align-items: center;
     justify-content: center;
     text-align: center;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: 20rem; /* Increased size for 'Hi :)' */
+    font-size: calc(10vw + 10vh); /* Responsive font size based on viewport dimensions */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
+    white-space: nowrap; /* Prevents breaking the text into multiple lines */
+    line-height: 1; /* Ensures no extra line spacing */
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 /* Footer styling */
