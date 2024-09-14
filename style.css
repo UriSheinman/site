@@ -28,16 +28,49 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     text-align: center;
 }
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: min(80vw, 80vh); /* Increase to 80% of viewport size */
+    font-size: min(80vw, 80vh); /* Scale according to the viewport size */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
     white-space: nowrap; /* Prevents breaking the text into multiple lines */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Hidden paragraphs */
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+}
+
+/* Clickable and animated text */
+main h2.clicked {
+    animation: catchMe 1s infinite;
+    cursor: pointer;
+    color: #ff6347; /* Change color when clicked */
+}
+
+/* Keyframes for the "catch me" animation */
+@keyframes catchMe {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(10px); }
+    50% { transform: translateX(-10px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Message that shows once clues are revealed */
+main p#clue2 {
+    color: #28a745;
+    font-size: 1.5rem;
+    margin-top: 20px;
 }
 
 /* Footer styling */
