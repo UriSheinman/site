@@ -32,10 +32,11 @@ main {
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: 20rem; /* Increased size for 'Hi :)' */
+    font-size: 20vw; /* Use viewport width to scale the size of 'Hi :)' */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
+    white-space: nowrap; /* Prevents breaking the text into multiple lines */
 }
 
 /* Footer styling */
