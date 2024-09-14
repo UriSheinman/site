@@ -4,9 +4,8 @@ body {
     font-family: 'SUSE', sans-serif;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh; /* Minimum height to allow scrolling */
     background-color: #f0f0f0; /* Light gray background */
-    overflow: hidden; /* Prevent scrolling */
 }
 
 /* Header styling */
@@ -29,20 +28,17 @@ main {
     align-items: center;
     justify-content: center;
     text-align: center;
-    overflow: hidden; /* Prevent scrolling */
 }
 
 main h2 {
     font-family: 'SUSE', sans-serif;
-    font-size: calc(8vw + 8vh); /* Adjust font size so it fits the screen better */
+    font-size: calc(10vw + 10vh); /* Adjusted font size to better scale on various screens */
     font-weight: 400; /* Normal weight */
     margin: 0;
     color: #333; /* Dark gray color for contrast */
-    white-space: nowrap; /* Prevents breaking the text into multiple lines */
-    line-height: 1; /* Ensures no extra line spacing */
-    max-width: 100vw; /* Ensure the text doesn’t overflow horizontally */
-    max-height: calc(100vh - 70px); /* Footer height taken into account */
-    transition: all 0.3s ease;
+    white-space: nowrap; /* Prevent text from wrapping into multiple lines */
+    line-height: 1; /* No extra space between lines */
+    max-width: 100vw; /* Ensure text doesn’t overflow horizontally */
 }
 
 /* Footer styling */
@@ -51,7 +47,8 @@ footer {
     height: 50px; /* Fixed height for footer */
     padding: 10px 0;
     background-color: #e1e1e1; /* Slightly darker background */
-    flex-shrink: 0; /* Ensure footer stays at the bottom */
+    flex-shrink: 0; /* Keep footer at the bottom of the page */
+    margin-top: auto; /* Push footer to the bottom when content is short */
 }
 
 footer p {
