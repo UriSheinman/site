@@ -44,7 +44,7 @@ main h2 {
 /* Footer styling */
 footer {
     text-align: center;
-    height: 50px; /* Fixed height for footer */
+    height: 20px; /* Fixed height for footer */
     padding: 10px 0;
     background-color: #e1e1e1; /* Slightly darker background */
     flex-shrink: 0; /* Keep footer at the bottom of the page */
