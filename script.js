@@ -16,21 +16,55 @@ function redirectToUriSheinman() {
 // Function to handle the click on the main content
 let clickCount = 0; // Counter to track clicks
 
-// Array of poetic quotes from Taylor Swift songs
-const quotes = [
-    "You are not a drop in the ocean. You are the entire ocean in a drop.",
-    "And I don’t know why I dance with you in a storm in my best dress.",
-    "This is a state of grace. This is the worthwhile fight.",
-    "We are too busy dancing to get knocked off our feet.",
-    "I’m captivated by you, baby, like a firework show."
-];
-
 function handleClick() {
     clickCount++;
     
-    // Get a random quote from the array
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    alert(randomQuote);
+    // Brightness effect on the text
+    const mainText = document.querySelector('main h2');
+    const headerText = document.querySelector('header h1');
+    const footerText = document.querySelector('footer p');
+
+    // Create a brightening effect
+    let brightness = 1;
+    const brightenInterval = setInterval(() => {
+        brightness += 0.05; // Increase brightness
+        mainText.style.filter = `brightness(${brightness})`;
+        headerText.style.filter = `brightness(${brightness})`;
+        footerText.style.filter = `brightness(${brightness})`;
+
+        // Flash effect
+        if (brightness >= 3) {
+            clearInterval(brightenInterval);
+            const flashInterval = setInterval(() => {
+                const currentOpacity = parseFloat(mainText.style.opacity) || 1;
+                const newOpacity = currentOpacity === 1 ? 0 : 1;
+                mainText.style.opacity = newOpacity;
+                headerText.style.opacity = newOpacity;
+                footerText.style.opacity = newOpacity;
+
+                // Stop flashing after 1 second
+                if (newOpacity === 1) {
+                    clearInterval(flashInterval);
+                    turnOffText();
+                }
+            }, 100); // Flash every 100ms
+        }
+    }, 100); // Brighten every 100ms
+}
+
+// Function to turn off all text except smiley
+function turnOffText() {
+    const mainText = document.querySelector('main h2');
+    const headerText = document.querySelector('header h1');
+    const footerText = document.querySelector('footer p');
+
+    // Set opacity to 0 for all text
+    mainText.style.opacity = 0;
+    headerText.style.opacity = 0;
+    footerText.style.opacity = 0;
+
+    // Ensure the smiley still flickers
+    startFlickeringEffect();
 }
 
 // Attach event listeners to the elements
