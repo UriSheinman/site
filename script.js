@@ -40,7 +40,7 @@ document.querySelector('header').addEventListener('click', redirectToUriSheinman
 document.querySelector('main h2').addEventListener('click', handleClick);
 
 
-// Function to wrap each character in a span
+// Function to wrap each character in a span, but exclude the footer
 function wrapCharactersWithSpan(element) {
     const text = element.textContent;
     const wrappedText = text.split('').map(char => `<span>${char}</span>`).join('');
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
-    // Get all spans excluding those inside the footer
+    // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
     let currentFlicker;
 
