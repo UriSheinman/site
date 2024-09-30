@@ -50,7 +50,7 @@ footer {
     text-align: center;
     height: 20px;
     padding: 10px 0;
-    background-color: #000000;
+    background-color: #000000; /* Background color matches body */
     flex-shrink: 0;
     margin-top: auto;
 }
