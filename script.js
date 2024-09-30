@@ -47,23 +47,22 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Apply the wrapping to all target elements
+// Apply the wrapping to header and main content only (no footer)
 document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('header h1');
     const mainHeading = document.querySelector('main h2');
-    const footerText = document.querySelector('footer p');
 
     wrapCharactersWithSpan(header);
     wrapCharactersWithSpan(mainHeading);
-    wrapCharactersWithSpan(footerText);
 
     // Start the random flickering effect
     startFlickeringEffect();
 });
 
-// Function to randomly flicker one letter at a time
+// Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
-    const allSpans = document.querySelectorAll('span');
+    // Get all spans excluding those inside the footer
+    const allSpans = document.querySelectorAll('header span, main span');
     let currentFlicker;
 
     function flickerLetter() {
