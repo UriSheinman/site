@@ -65,11 +65,11 @@ footer p {
 
 /* Neon flicker effect for individual characters */
 @keyframes neon-flicker {
-    0% {
+    0%, 100% {
         opacity: 1;
     }
     10% {
-        opacity: 0.5;
+        opacity: 0.6;
     }
     20% {
         opacity: 1;
@@ -87,7 +87,7 @@ footer p {
         opacity: 1;
     }
     70% {
-        opacity: 0.6;
+        opacity: 0.5;
     }
     80% {
         opacity: 1;
@@ -95,21 +95,47 @@ footer p {
     90% {
         opacity: 0.7;
     }
-    100% {
-        opacity: 1;
-    }
 }
 
 /* Apply flickering to individual letters */
 h1 span, h2 span, p span {
     display: inline-block;
-    animation: neon-flicker 3s infinite alternate;
+    animation: neon-flicker 5s infinite alternate;
+    animation-timing-function: steps(1, end); /* More abrupt changes */
+    opacity: 1;
+}
+
+/* Randomizing the flicker timings */
+h1 span, h2 span, p span {
+    animation-delay: calc(0.5s * var(--random-delay)); /* Vary delay times */
 }
 
 h1 span:nth-child(odd), h2 span:nth-child(odd), p span:nth-child(odd) {
-    animation-duration: 2s;
+    animation-duration: 6s;
 }
 
 h1 span:nth-child(even), h2 span:nth-child(even), p span:nth-child(even) {
-    animation-duration: 3.5s;
+    animation-duration: 8s;
 }
+
+/* Assign random delay values using CSS variables */
+h1 span:nth-child(1) { --random-delay: 1; }
+h1 span:nth-child(2) { --random-delay: 3; }
+h1 span:nth-child(3) { --random-delay: 2; }
+h1 span:nth-child(4) { --random-delay: 5; }
+h1 span:nth-child(5) { --random-delay: 4; }
+h1 span:nth-child(6) { --random-delay: 6; }
+h1 span:nth-child(7) { --random-delay: 2; }
+h1 span:nth-child(8) { --random-delay: 3; }
+
+h2 span:nth-child(1) { --random-delay: 4; }
+h2 span:nth-child(2) { --random-delay: 2; }
+h2 span:nth-child(3) { --random-delay: 1; }
+h2 span:nth-child(4) { --random-delay: 5; }
+h2 span:nth-child(5) { --random-delay: 3; }
+
+p span:nth-child(1) { --random-delay: 2; }
+p span:nth-child(2) { --random-delay: 4; }
+p span:nth-child(3) { --random-delay: 6; }
+p span:nth-child(4) { --random-delay: 3; }
+p span:nth-child(5) { --random-delay: 5; }
