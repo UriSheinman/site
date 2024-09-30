@@ -16,23 +16,21 @@ function redirectToUriSheinman() {
 // Function to handle the click on the main content
 let clickCount = 0; // Counter to track clicks
 
+// Array of poetic quotes from Taylor Swift songs
+const quotes = [
+    "You are not a drop in the ocean. You are the entire ocean in a drop.",
+    "And I don’t know why I dance with you in a storm in my best dress.",
+    "This is a state of grace. This is the worthwhile fight.",
+    "We are too busy dancing to get knocked off our feet.",
+    "I’m captivated by you, baby, like a firework show."
+];
+
 function handleClick() {
     clickCount++;
     
-    switch (clickCount) {
-        case 1:
-            alert("I'm Coming Like a Storm Into Your Town");
-            break;
-        case 2:
-            alert("I'm Higher Than The Hope That You Brought Down");
-            break;
-        case 3:
-            alert("You Can't Catch Me Now...");
-            clickCount = 0; // Reset the click count for the next round
-            break;
-        default:
-            break;
-    }
+    // Get a random quote from the array
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    alert(randomQuote);
 }
 
 // Attach event listeners to the elements
@@ -63,18 +61,36 @@ document.addEventListener('DOMContentLoaded', function() {
 function startFlickeringEffect() {
     // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
-    let currentFlicker;
+    let currentFlicker = null;
 
     function flickerLetter() {
-        // Clear the previous flickering letter
+        // Clear the previous flickering letter if it exists
         if (currentFlicker) {
             currentFlicker.classList.remove('flicker');
         }
 
-        // Pick a random letter to flicker
+        // Choose a random index for flickering
         const randomIndex = Math.floor(Math.random() * allSpans.length);
         currentFlicker = allSpans[randomIndex];
+        
+        // Add the flicker class
         currentFlicker.classList.add('flicker');
+
+        // Randomly determine if adjacent characters should flicker
+        if (randomIndex > 0) {
+            const adjacentLeft = allSpans[randomIndex - 1];
+            if (Math.random() < 0.5) { // 50% chance to flicker adjacent left character
+                adjacentLeft.classList.add('flicker');
+                setTimeout(() => adjacentLeft.classList.remove('flicker'), 200); // Flicker duration
+            }
+        }
+        if (randomIndex < allSpans.length - 1) {
+            const adjacentRight = allSpans[randomIndex + 1];
+            if (Math.random() < 0.5) { // 50% chance to flicker adjacent right character
+                adjacentRight.classList.add('flicker');
+                setTimeout(() => adjacentRight.classList.remove('flicker'), 200); // Flicker duration
+            }
+        }
 
         // Set a random delay for the next flicker (between 1 to 5 seconds)
         const delay = Math.random() * 4000 + 1000;
