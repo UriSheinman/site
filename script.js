@@ -40,11 +40,11 @@ document.querySelector('header').addEventListener('click', redirectToUriSheinman
 document.querySelector('main h2').addEventListener('click', handleClick);
 
 
-// Function to wrap each character in a span and apply the flickering effect
+// Function to wrap each character in a span
 function wrapCharactersWithSpan(element) {
-    const text = element.textContent; // Get the original text
-    const wrappedText = text.split('').map(char => `<span>${char}</span>`).join(''); // Wrap each character in a span
-    element.innerHTML = wrappedText; // Replace the original text with the wrapped text
+    const text = element.textContent;
+    const wrappedText = text.split('').map(char => `<span>${char}</span>`).join('');
+    element.innerHTML = wrappedText;
 }
 
 // Apply the wrapping to all target elements
@@ -53,8 +53,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainHeading = document.querySelector('main h2');
     const footerText = document.querySelector('footer p');
 
-    // Wrap characters with span for flickering effect
     wrapCharactersWithSpan(header);
     wrapCharactersWithSpan(mainHeading);
     wrapCharactersWithSpan(footerText);
+
+    // Start the random flickering effect
+    startFlickeringEffect();
 });
+
+// Function to randomly flicker one letter at a time
+function startFlickeringEffect() {
+    const allSpans = document.querySelectorAll('span');
+    let currentFlicker;
+
+    function flickerLetter() {
+        // Clear the previous flickering letter
+        if (currentFlicker) {
+            currentFlicker.classList.remove('flicker');
+        }
+
+        // Pick a random letter to flicker
+        const randomIndex = Math.floor(Math.random() * allSpans.length);
+        currentFlicker = allSpans[randomIndex];
+        currentFlicker.classList.add('flicker');
+
+        // Set a random delay for the next flicker (between 1 to 5 seconds)
+        const delay = Math.random() * 4000 + 1000;
+        setTimeout(flickerLetter, delay);
+    }
+
+    // Start the first flicker
+    flickerLetter();
+}
