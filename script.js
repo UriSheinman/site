@@ -38,3 +38,23 @@ function handleClick() {
 // Attach event listeners to the elements
 document.querySelector('header').addEventListener('click', redirectToUriSheinman);
 document.querySelector('main h2').addEventListener('click', handleClick);
+
+
+// Function to wrap each character in a span and apply the flickering effect
+function wrapCharactersWithSpan(element) {
+    const text = element.textContent; // Get the original text
+    const wrappedText = text.split('').map(char => `<span>${char}</span>`).join(''); // Wrap each character in a span
+    element.innerHTML = wrappedText; // Replace the original text with the wrapped text
+}
+
+// Apply the wrapping to all target elements
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('header h1');
+    const mainHeading = document.querySelector('main h2');
+    const footerText = document.querySelector('footer p');
+
+    // Wrap characters with span for flickering effect
+    wrapCharactersWithSpan(header);
+    wrapCharactersWithSpan(mainHeading);
+    wrapCharactersWithSpan(footerText);
+});
