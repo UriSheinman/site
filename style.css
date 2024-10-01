@@ -82,13 +82,3 @@ footer p {
     animation: flicker 0.2s steps(1, end) infinite; /* Faster flicker duration */
     color: #ffffff; /* Match text color */
 }
-
-/* Particle effect styles */
-.particle {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.8); /* Glowing color for visibility */
-    border-radius: 50%; /* Circular particles */
-    pointer-events: none; /* Prevent interaction */
-    animation: particleAnimation 2s ease forwards;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glowing effect */
-}
