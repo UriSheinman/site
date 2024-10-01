@@ -7,6 +7,7 @@ body {
     min-height: 100vh;
     background-color: #000000; /* Solid black background */
     color: #ffffff; /* White text */
+    overflow: hidden; /* Prevent scrolling */
 }
 
 /* Header styling */
@@ -78,15 +79,15 @@ footer p {
 
 /* Class for flickering letter */
 .flicker {
-    animation: flicker 0.3s steps(1, end) infinite; /* Slower flicker duration */
+    animation: flicker 0.2s steps(1, end) infinite; /* Faster flicker duration */
     color: #ffffff; /* Match text color */
 }
 
 /* Particle effect styles */
 .particle {
     position: absolute;
-    background: rgba(255, 255, 255, 0.8); /* White color for visibility */
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8); /* Glowing color for visibility */
+    border-radius: 50%; /* Circular particles */
     pointer-events: none; /* Prevent interaction */
     animation: particleAnimation 2s ease forwards;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glowing effect */
@@ -99,7 +100,7 @@ footer p {
         opacity: 1;
     }
     100% {
-        transform: translateY(-50px) scale(0);
-        opacity: 0;
+        transform: translateY(-50px) scale(0); /* Move upwards */
+        opacity: 0; /* Fade out */
     }
 }
