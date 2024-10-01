@@ -39,16 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
 function startFlickeringEffect() {
     // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
-    let currentFlicker = [];
+    let flickeringIndexes = []; // Keep track of flickering indexes
 
     function flickerLetter() {
         // Clear previous flickering letters
-        currentFlicker.forEach(span => span.classList.remove('flicker'));
+        flickeringIndexes.forEach(index => {
+            allSpans[index].classList.remove('flicker');
+        });
 
-        // If already two characters are flickering, do nothing
-        if (currentFlicker.length >= 2) {
-            const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
-            return setTimeout(flickerLetter, delay);
+        // If two characters are already flickering, do nothing
+        if (flickeringIndexes.length >= 2) {
+            return setTimeout(flickerLetter, 500); // Retry after a short delay
         }
 
         // Randomly pick a new letter to flicker
@@ -56,27 +57,43 @@ function startFlickeringEffect() {
         const selectedSpan = allSpans[randomIndex];
 
         // Ensure we don't flicker the same letter more than once and avoid spaces
-        if (!currentFlicker.includes(selectedSpan) && selectedSpan.textContent.trim() !== '') {
-            currentFlicker.push(selectedSpan);
+        if (!flickeringIndexes.includes(randomIndex) && selectedSpan.textContent.trim() !== '') {
+            flickeringIndexes.push(randomIndex);
             selectedSpan.classList.add('flicker');
-            
+
             // Handle neighboring flicker
             const neighborLeft = allSpans[randomIndex - 1];
             const neighborRight = allSpans[randomIndex + 1];
 
-            // Add flickering class to neighbors as well, if they are not spaces
-            if (neighborLeft && neighborLeft.textContent.trim() !== '') {
+            // Random delay for neighboring flickers to create a staggered effect
+            if (neighborLeft && neighborLeft.textContent.trim() !== '' && !flickeringIndexes.includes(randomIndex - 1)) {
+                flickeringIndexes.push(randomIndex - 1);
                 neighborLeft.classList.add('flicker');
+
+                // Delay for neighbor
+                setTimeout(() => {
+                    flickeringIndexes = flickeringIndexes.filter(index => index !== (randomIndex - 1));
+                    neighborLeft.classList.remove('flicker');
+                }, Math.random() * 3000 + 1000); // Between 1 and 4 seconds
             }
-            if (neighborRight && neighborRight.textContent.trim() !== '') {
+
+            if (neighborRight && neighborRight.textContent.trim() !== '' && !flickeringIndexes.includes(randomIndex + 1)) {
+                flickeringIndexes.push(randomIndex + 1);
                 neighborRight.classList.add('flicker');
+
+                // Delay for neighbor
+                setTimeout(() => {
+                    flickeringIndexes = flickeringIndexes.filter(index => index !== (randomIndex + 1));
+                    neighborRight.classList.remove('flicker');
+                }, Math.random() * 3000 + 1000); // Between 1 and 4 seconds
             }
 
             // Set a random delay for the next flicker (between 1 to 5 seconds)
             const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
             setTimeout(() => {
-                currentFlicker = currentFlicker.filter(span => span !== selectedSpan && span !== neighborLeft && span !== neighborRight);
-                flickerLetter();
+                flickeringIndexes = flickeringIndexes.filter(index => index !== randomIndex);
+                selectedSpan.classList.remove('flicker');
+                flickerLetter(); // Call again for the next flicker
             }, delay);
         } else {
             // Retry if the selected span is not valid
