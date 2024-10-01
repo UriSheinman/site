@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     startFlickeringEffect();
 });
 
-// Function to randomly flicker one letter at a time (excluding footer)
+// Function to randomly flicker letters (excluding footer)
 function startFlickeringEffect() {
     // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
@@ -45,23 +45,36 @@ function startFlickeringEffect() {
         // Clear previous flickering letters
         currentFlicker.forEach(span => span.classList.remove('flicker'));
 
-        // Randomly pick new letters to flicker (2 max)
-        const flickerCount = Math.floor(Math.random() * 2) + 1; // 1 or 2 flickering letters
+        // Randomly pick new letters to flicker (up to 2)
         currentFlicker = [];
+        const flickerCount = Math.floor(Math.random() * 2) + 1; // 1 or 2 flickering letters
+        const indices = new Set();
 
         while (currentFlicker.length < flickerCount) {
             const randomIndex = Math.floor(Math.random() * allSpans.length);
             const selectedSpan = allSpans[randomIndex];
 
-            // Ensure we don't flicker the same letter more than once
-            if (!currentFlicker.includes(selectedSpan) && selectedSpan.textContent.trim() !== '') {
+            // Ensure we don't flicker the same letter more than once and avoid spaces
+            if (!currentFlicker.includes(selectedSpan) && selectedSpan.textContent.trim() !== '' && !indices.has(randomIndex)) {
                 currentFlicker.push(selectedSpan);
+                indices.add(randomIndex);
                 selectedSpan.classList.add('flicker');
+                
+                // Handle neighboring flicker
+                const neighborLeft = allSpans[randomIndex - 1];
+                const neighborRight = allSpans[randomIndex + 1];
+
+                if (neighborLeft && neighborLeft.textContent.trim() !== '') {
+                    neighborLeft.classList.add('flicker');
+                }
+                if (neighborRight && neighborRight.textContent.trim() !== '') {
+                    neighborRight.classList.add('flicker');
+                }
             }
         }
 
         // Set a random delay for the next flicker (between 1 to 5 seconds)
-        const delay = Math.random() * 3000 + 1000; // Between 1 and 4 seconds
+        const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
         setTimeout(flickerLetter, delay);
     }
 
@@ -88,6 +101,16 @@ function createParticles() {
         const y = Math.random() * window.innerHeight;
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
+
+        // Randomize the direction of the particles
+        const angle = Math.random() * 360; // Random angle
+        const distance = Math.random() * 50 + 30; // Random distance
+        const xOffset = distance * Math.cos(angle * (Math.PI / 180));
+        const yOffset = distance * Math.sin(angle * (Math.PI / 180));
+
+        // Apply the animation with randomized direction
+        particle.style.transition = `transform 2s ease`;
+        particle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
 
         // Remove the particle after animation ends
         setTimeout(() => {
