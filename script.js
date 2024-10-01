@@ -61,7 +61,7 @@ function startFlickeringEffect() {
         }
 
         // Set a random delay for the next flicker (between 1 to 5 seconds)
-        const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
+        const delay = Math.random() * 3000 + 1000; // Between 1 and 4 seconds
         setTimeout(flickerLetter, delay);
     }
 
@@ -71,12 +71,17 @@ function startFlickeringEffect() {
 
 // Create background particles
 function createParticles() {
-    const particleCount = 5; // Number of particles to generate per interval
+    const particleCount = 3; // Number of particles to generate per interval
 
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         document.body.appendChild(particle);
+
+        // Randomize size for variety
+        const size = Math.random() * 5 + 5; // Size between 5px and 10px
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
 
         // Position the particle randomly within the viewport
         const x = Math.random() * window.innerWidth;
