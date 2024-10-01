@@ -67,58 +67,37 @@ footer p {
 @keyframes flicker {
     0% {
         opacity: 1;
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.8),
-            0 0 20px rgba(255, 255, 255, 0.6);
     }
     50% {
         opacity: 0.3;
-        text-shadow: 
-            0 0 5px rgba(255, 255, 255, 0.4),
-            0 0 10px rgba(255, 255, 255, 0.2);
     }
     100% {
         opacity: 1;
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.8),
-            0 0 20px rgba(255, 255, 255, 0.6);
-    }
-}
-
-/* Spark effect */
-@keyframes sparks {
-    0% {
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 1),
-            0 0 20px rgba(255, 255, 255, 0.8),
-            0 0 30px rgba(255, 255, 255, 0.6),
-            0 0 40px rgba(255, 255, 255, 0.4);
-        transform: scale(1);
-    }
-    50% {
-        text-shadow: 
-            0 -5px 15px rgba(255, 255, 255, 1),
-            0 0 20px rgba(255, 255, 255, 0.8),
-            0 0 30px rgba(255, 255, 255, 0.6),
-            0 0 40px rgba(255, 255, 255, 0.4);
-        transform: scale(1.2);
-    }
-    100% {
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 1),
-            0 0 20px rgba(255, 255, 255, 0.8),
-            0 0 30px rgba(255, 255, 255, 0.6),
-            0 0 40px rgba(255, 255, 255, 0.4);
-        transform: scale(1);
     }
 }
 
 /* Class for flickering letter */
 .flicker {
-    animation: flicker 0.2s steps(1, end) infinite;
+    animation: flicker 0.5s steps(1, end) infinite; /* Slightly faster flicker duration */
 }
 
-/* Class for spark effect */
+/* Spark effect */
 .spark {
-    animation: sparks 0.5s infinite;
+    width: 5px;
+    height: 5px;
+    background-color: yellow; /* Spark color */
+    border-radius: 50%; /* Make it circular */
+    position: absolute;
+    animation: spark-animation 0.5s forwards; /* Duration of spark visibility */
+}
+
+@keyframes spark-animation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
 }
