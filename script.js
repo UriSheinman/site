@@ -40,43 +40,44 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Function to randomly flicker letters with random duration and their neighbors more often
+// Function to randomly flicker letters with random duration and neighboring letters in parallel
 function startFlickeringEffect() {
     // Get all spans from header and main only (excluding spaces)
     const allSpans = document.querySelectorAll('header span, main span');
-    let currentFlicker;
-
+    
     function flickerLetter() {
-        // Clear the previous flickering letter if it exists
-        if (currentFlicker) {
-            currentFlicker.classList.remove('flicker');
-        }
-
         // Pick a random letter to flicker
         const randomIndex = Math.floor(Math.random() * allSpans.length);
-        currentFlicker = allSpans[randomIndex];
+        const currentFlicker = allSpans[randomIndex];
         
         // Randomly set a flicker duration between 1 and 5 seconds
         const flickerDuration = Math.random() * 4000 + 1000; // Between 1s and 5s
-        currentFlicker.style.animationDuration = `${flickerDuration}ms`; // Apply duration
+        
+        currentFlicker.style.animationDuration = '0.2s'; // Keep fast flicker speed
         currentFlicker.classList.add('flicker');
 
-        // Flicker neighboring letters with higher probability
-        if (Math.random() < 0.5) { // 50% chance of neighboring flicker
+        // Remove flicker after random duration
+        setTimeout(() => {
+            currentFlicker.classList.remove('flicker');
+        }, flickerDuration);
+
+        // Flicker neighboring letters with a 50% chance
+        if (Math.random() < 0.5) {
             const nextIndex = randomIndex + 1;
             if (nextIndex < allSpans.length && allSpans[nextIndex].textContent !== ' ') {
-                allSpans[nextIndex].style.animationDuration = `${flickerDuration}ms`;
+                allSpans[nextIndex].style.animationDuration = '0.2s';
                 allSpans[nextIndex].classList.add('flicker');
+
+                // Remove neighboring flicker after a random duration
+                setTimeout(() => {
+                    allSpans[nextIndex].classList.remove('flicker');
+                }, flickerDuration);
             }
         }
 
-        // Set a random delay for the next flicker (between 1 to 5 seconds)
-        const delay = Math.random() * 4000 + 1000; // Between 1s and 5s
-        setTimeout(() => {
-            // Remove flicker from the previous letter
-            allSpans.forEach(span => span.classList.remove('flicker'));
-            flickerLetter();
-        }, delay);
+        // Set a random delay for the next flicker (between 1 and 5 seconds)
+        const delay = Math.random() * 4000 + 1000; // Random delay between flickers
+        setTimeout(flickerLetter, delay);
     }
 
     // Start the first flicker
