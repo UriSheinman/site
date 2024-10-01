@@ -5,8 +5,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #000000; /* AMOLED black background */
+    background: linear-gradient(135deg, #000000, #2a2a2a);
+    background-size: 300% 300%;
+    animation: gradientAnimation 10s ease infinite; /* Background gradient animation */
     color: #ffffff; /* White text */
+    overflow: hidden; /* Prevent scrollbars from appearing */
 }
 
 /* Header styling */
@@ -78,5 +81,39 @@ footer p {
 
 /* Class for flickering letter */
 .flicker {
-    animation: flicker 0.2s steps(1, end) infinite; /* Original flicker speed */
+    animation: flicker 0.1s steps(1, end) infinite; /* Faster flicker duration */
+    color: #ffffff; /* Match text color */
+}
+
+/* Background gradient animation */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Particle effect */
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none; /* Prevent interaction */
+    animation: particleAnimation 2s ease forwards;
+}
+
+@keyframes particleAnimation {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px) scale(0);
+        opacity: 0;
+    }
 }
