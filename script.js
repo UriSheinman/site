@@ -38,28 +38,34 @@ document.addEventListener('DOMContentLoaded', function() {
 // Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
     const allSpans = document.querySelectorAll('header span, main span');
-    
+    const flickerDuration = Math.random() * 4000 + 1000; // Random flicker duration between 1 to 5 seconds
+
     function flickerLetter() {
         // Pick a random letter to flicker
         const randomIndex = Math.floor(Math.random() * allSpans.length);
-        const flickerCount = Math.floor(Math.random() * 2) + 1; // Flicker either 1 or 2 characters
         
-        for (let i = 0; i < flickerCount; i++) {
-            let indexToFlicker = randomIndex + (Math.random() < 0.5 ? -1 : 1); // Choose neighboring character
-            if (indexToFlicker >= 0 && indexToFlicker < allSpans.length) {
-                allSpans[indexToFlicker].classList.add('flicker');
-                // Remove flicker class after a short time
-                setTimeout(() => {
-                    allSpans[indexToFlicker].classList.remove('flicker');
-                }, Math.random() * 4000 + 1000); // Flicker duration between 1 to 5 seconds
-            }
+        // Ensure the selected index is within bounds
+        if (randomIndex >= 0 && randomIndex < allSpans.length) {
+            allSpans[randomIndex].classList.add('flicker');
+            
+            // Remove flicker class after a short time
+            setTimeout(() => {
+                allSpans[randomIndex].classList.remove('flicker');
+            }, flickerDuration); // Use previously defined flicker duration
         }
 
         // Set a random delay for the next flicker
-        const delay = Math.random() * 4000 + 1000;
+        const delay = Math.random() * 4000 + 1000; // Random delay between 1 to 5 seconds
         setTimeout(flickerLetter, delay);
     }
 
-    // Start the first flicker
-    flickerLetter();
+    function keepFlickering() {
+        // Start flickering immediately
+        flickerLetter();
+        // Ensure there is always one flickering
+        setInterval(flickerLetter, flickerDuration + 100); // Call flickerLetter at intervals slightly greater than flickerDuration
+    }
+
+    // Start the flickering
+    keepFlickering();
 }
