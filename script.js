@@ -19,7 +19,7 @@ document.querySelector('header').addEventListener('click', redirectToUriSheinman
 // Function to wrap each character in a span, but exclude the footer
 function wrapCharactersWithSpan(element) {
     const text = element.textContent;
-    const wrappedText = text.split('').map(char => char === ' ' ? char : `<span>${char}</span>`).join('');
+    const wrappedText = text.split('').map(char => `<span>${char}</span>`).join('');
     element.innerHTML = wrappedText;
 }
 
@@ -37,57 +37,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
-    // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
-    let flickeringIndices = [];
-    let flickerActive = true;
+    let currentFlicker = null;
 
     function flickerLetter() {
-        if (!flickerActive) return;
-
-        // Ensure only two characters are flickering at a time
-        while (flickeringIndices.length >= 2) {
-            flickeringIndices.splice(0, 1); // Remove the first index
+        // Clear the previous flickering letter
+        if (currentFlicker) {
+            currentFlicker.classList.remove('flicker');
         }
 
         // Pick a random letter to flicker
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * allSpans.length);
-        } while (flickeringIndices.includes(randomIndex) || allSpans[randomIndex].textContent === ' '); // Avoid spaces
-
-        flickeringIndices.push(randomIndex);
-        const currentFlicker = allSpans[randomIndex];
+        const randomIndex = Math.floor(Math.random() * allSpans.length);
+        currentFlicker = allSpans[randomIndex];
         currentFlicker.classList.add('flicker');
 
-        // Set a random duration for the flicker effect (between 1 and 5 seconds)
-        const flickerDuration = Math.random() * 4000 + 1000; // between 1000ms and 5000ms
-        setTimeout(() => {
-            currentFlicker.classList.remove('flicker');
-            shootSparks(currentFlicker); // Call to shoot sparks when flicker ends
-            flickeringIndices.splice(flickeringIndices.indexOf(randomIndex), 1); // Remove from flickering indices
-            flickerLetter(); // Call flicker again
-        }, flickerDuration);
-    }
+        // Set a random delay for the next flicker (between 1 to 5 seconds)
+        const flickerDuration = Math.random() * 4000 + 1000; // Flicker duration between 1 to 5 seconds
 
-    // Function to shoot sparks from a flickering letter
-    function shootSparks(element) {
-        const sparksCount = 10; // Number of sparks to generate
-        for (let i = 0; i < sparksCount; i++) {
-            const spark = document.createElement('span');
-            spark.classList.add('spark');
-            spark.style.position = 'absolute';
-            spark.style.left = `${element.getBoundingClientRect().left + Math.random() * element.offsetWidth}px`;
-            spark.style.top = `${element.getBoundingClientRect().top + Math.random() * element.offsetHeight}px`;
-            document.body.appendChild(spark);
-
-            // Remove spark after animation duration
-            setTimeout(() => {
-                spark.remove();
-            }, 500); // Duration of spark visibility
+        // Random chance to create a spark effect (occurs occasionally)
+        const sparkChance = Math.random();
+        if (sparkChance < 0.3) { // 30% chance to create a spark
+            createSpark(currentFlicker);
         }
+
+        setTimeout(flickerLetter, flickerDuration);
     }
 
     // Start the first flicker
     flickerLetter();
+}
+
+// Function to create a spark at the flickering letter's position
+function createSpark(letter) {
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    
+    // Get the position of the letter to place the spark
+    const rect = letter.getBoundingClientRect();
+    spark.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+    spark.style.top = `${rect.top + window.scrollY + rect.height}px`;
+
+    document.body.appendChild(spark);
+
+    // Remove spark from the DOM after the animation ends
+    spark.addEventListener('animationend', () => {
+        spark.remove();
+    });
 }
