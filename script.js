@@ -40,8 +40,11 @@ function startFlickeringEffect() {
     // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
     let flickeringIndices = [];
+    let flickerActive = true;
 
     function flickerLetter() {
+        if (!flickerActive) return;
+
         // Ensure only two characters are flickering at a time
         while (flickeringIndices.length >= 2) {
             flickeringIndices.splice(0, 1); // Remove the first index
@@ -57,8 +60,8 @@ function startFlickeringEffect() {
         const currentFlicker = allSpans[randomIndex];
         currentFlicker.classList.add('flicker');
 
-        // Occasionally add spark effect
-        if (Math.random() < 0.1) {
+        // Occasionally add spark effect (more frequent)
+        if (Math.random() < 0.3) { // Increased frequency of sparks
             currentFlicker.classList.add('spark');
             setTimeout(() => {
                 currentFlicker.classList.remove('spark');
