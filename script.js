@@ -64,6 +64,7 @@ function startFlickeringEffect() {
                 const neighborLeft = allSpans[randomIndex - 1];
                 const neighborRight = allSpans[randomIndex + 1];
 
+                // Add flickering class to neighbors as well, if they are not spaces
                 if (neighborLeft && neighborLeft.textContent.trim() !== '') {
                     neighborLeft.classList.add('flicker');
                 }
