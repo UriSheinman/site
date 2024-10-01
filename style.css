@@ -68,19 +68,20 @@ footer p {
 @keyframes flicker {
     0% {
         opacity: 1;
+        filter: brightness(100%);
     }
     50% {
-        opacity: 0.5; /* Adjusted flicker intensity */
+        opacity: 0.3;
+        filter: brightness(50%);
     }
     100% {
         opacity: 1;
+        filter: brightness(100%);
     }
 }
 
-/* Class for flickering letter */
 .flicker {
-    animation: flicker 0.2s steps(1, end) infinite; /* Faster flicker duration */
-    color: #ffffff; /* Match text color */
+    animation: flicker 0.2s steps(1, end) infinite;
 }
 
 /* Particle effect styles */
