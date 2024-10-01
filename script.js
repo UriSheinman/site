@@ -8,7 +8,7 @@ function updateYear() {
 // Update year on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateYear();
-    
+
     // Attach event listeners to the header element
     document.querySelector('header').addEventListener('click', redirectToUriSheinman);
 
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     wrapCharactersWithSpan(header);
     wrapCharactersWithSpan(mainHeading);
 
-    // Start the random flickering effect on page load
+    // Start the continuous flickering effect on page load
     startFlickeringEffect();
 });
 
@@ -40,19 +40,19 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Function to randomly flicker letters with random duration and neighboring letters in parallel but not synchronized
+// Function to continuously flicker letters with random duration and neighboring letters in parallel but not synchronized
 function startFlickeringEffect() {
     // Get all spans from header and main only (excluding spaces)
     const allSpans = document.querySelectorAll('header span, main span');
-    
+
     function flickerLetter() {
         // Pick a random letter to flicker
         const randomIndex = Math.floor(Math.random() * allSpans.length);
         const currentFlicker = allSpans[randomIndex];
-        
+
         // Randomly set a flicker duration between 1 and 5 seconds
         const flickerDuration = Math.random() * 4000 + 1000; // Between 1s and 5s
-        
+
         currentFlicker.style.animationDuration = '0.2s'; // Keep fast flicker speed
         currentFlicker.classList.add('flicker');
 
@@ -77,11 +77,10 @@ function startFlickeringEffect() {
             }
         }
 
-        // Set a random delay for the next flicker (between 1 and 5 seconds)
-        const delay = Math.random() * 4000 + 1000; // Random delay between flickers
-        setTimeout(flickerLetter, delay);
+        // Immediately flick another letter once the current flicker starts (no delay)
+        setTimeout(flickerLetter, Math.random() * 1000 + 500); // Flicker delay between 0.5s to 1.5s
     }
 
-    // Start the first flicker
+    // Start the first flicker immediately
     flickerLetter();
 }
