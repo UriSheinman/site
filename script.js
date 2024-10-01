@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Start the random flickering effect
     startFlickeringEffect();
+
+    // Start particle effects
+    initParticles();
 });
 
 // Function to randomly flicker letters (excluding footer)
@@ -78,4 +81,72 @@ function startFlickeringEffect() {
 
     // Start the first flicker
     flickerLetter();
+}
+
+// Function to initialize particle effects
+function initParticles() {
+    const canvas = document.createElement('canvas');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    let particlesArray = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Initial call to set canvas size
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+            this.alpha = Math.random() * 0.5 + 0.3; // Glow with slight transparency
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Wrap particles when they go off-screen
+            if (this.x < 0 || this.x > canvas.width) this.x = Math.random() * canvas.width;
+            if (this.y < 0 || this.y > canvas.height) this.y = Math.random() * canvas.height;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "white"; // Glowing effect
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+    }
+
+    function initParticlesArray() {
+        particlesArray = [];
+        for (let i = 0; i < 150; i++) {
+            particlesArray.push(new Particle());
+        }
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particlesArray.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticlesArray();
+    animateParticles();
 }
