@@ -60,21 +60,32 @@ function startFlickeringEffect() {
         const currentFlicker = allSpans[randomIndex];
         currentFlicker.classList.add('flicker');
 
-        // Occasionally add spark effect (more frequent)
-        if (Math.random() < 0.3) { // Increased frequency of sparks
-            currentFlicker.classList.add('spark');
-            setTimeout(() => {
-                currentFlicker.classList.remove('spark');
-            }, 500); // Remove spark effect after 500ms
-        }
-
         // Set a random duration for the flicker effect (between 1 and 5 seconds)
         const flickerDuration = Math.random() * 4000 + 1000; // between 1000ms and 5000ms
         setTimeout(() => {
             currentFlicker.classList.remove('flicker');
+            shootSparks(currentFlicker); // Call to shoot sparks when flicker ends
             flickeringIndices.splice(flickeringIndices.indexOf(randomIndex), 1); // Remove from flickering indices
             flickerLetter(); // Call flicker again
         }, flickerDuration);
+    }
+
+    // Function to shoot sparks from a flickering letter
+    function shootSparks(element) {
+        const sparksCount = 10; // Number of sparks to generate
+        for (let i = 0; i < sparksCount; i++) {
+            const spark = document.createElement('span');
+            spark.classList.add('spark');
+            spark.style.position = 'absolute';
+            spark.style.left = `${element.getBoundingClientRect().left + Math.random() * element.offsetWidth}px`;
+            spark.style.top = `${element.getBoundingClientRect().top + Math.random() * element.offsetHeight}px`;
+            document.body.appendChild(spark);
+
+            // Remove spark after animation duration
+            setTimeout(() => {
+                spark.remove();
+            }, 500); // Duration of spark visibility
+        }
     }
 
     // Start the first flicker
