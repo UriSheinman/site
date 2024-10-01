@@ -40,7 +40,7 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Function to randomly flicker letters with random duration and neighboring letters in parallel
+// Function to randomly flicker letters with random duration and neighboring letters in parallel but not synchronized
 function startFlickeringEffect() {
     // Get all spans from header and main only (excluding spaces)
     const allSpans = document.querySelectorAll('header span, main span');
@@ -61,17 +61,19 @@ function startFlickeringEffect() {
             currentFlicker.classList.remove('flicker');
         }, flickerDuration);
 
-        // Flicker neighboring letters with a 50% chance
+        // Flicker neighboring letters with a slight delay (not synchronized)
         if (Math.random() < 0.5) {
             const nextIndex = randomIndex + 1;
             if (nextIndex < allSpans.length && allSpans[nextIndex].textContent !== ' ') {
-                allSpans[nextIndex].style.animationDuration = '0.2s';
-                allSpans[nextIndex].classList.add('flicker');
-
-                // Remove neighboring flicker after a random duration
+                const neighborFlickerDelay = Math.random() * 200; // Add a small delay for the neighbor
                 setTimeout(() => {
-                    allSpans[nextIndex].classList.remove('flicker');
-                }, flickerDuration);
+                    allSpans[nextIndex].style.animationDuration = '0.2s';
+                    allSpans[nextIndex].classList.add('flicker');
+
+                    setTimeout(() => {
+                        allSpans[nextIndex].classList.remove('flicker');
+                    }, flickerDuration);
+                }, neighborFlickerDelay);
             }
         }
 
