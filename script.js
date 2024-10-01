@@ -45,38 +45,43 @@ function startFlickeringEffect() {
         // Clear previous flickering letters
         currentFlicker.forEach(span => span.classList.remove('flicker'));
 
-        // Randomly pick new letters to flicker (up to 2)
-        currentFlicker = [];
-        const flickerCount = Math.floor(Math.random() * 2) + 1; // 1 or 2 flickering letters
-        const indices = new Set();
-
-        while (currentFlicker.length < flickerCount) {
-            const randomIndex = Math.floor(Math.random() * allSpans.length);
-            const selectedSpan = allSpans[randomIndex];
-
-            // Ensure we don't flicker the same letter more than once and avoid spaces
-            if (!currentFlicker.includes(selectedSpan) && selectedSpan.textContent.trim() !== '' && !indices.has(randomIndex)) {
-                currentFlicker.push(selectedSpan);
-                indices.add(randomIndex);
-                selectedSpan.classList.add('flicker');
-                
-                // Handle neighboring flicker
-                const neighborLeft = allSpans[randomIndex - 1];
-                const neighborRight = allSpans[randomIndex + 1];
-
-                // Add flickering class to neighbors as well, if they are not spaces
-                if (neighborLeft && neighborLeft.textContent.trim() !== '') {
-                    neighborLeft.classList.add('flicker');
-                }
-                if (neighborRight && neighborRight.textContent.trim() !== '') {
-                    neighborRight.classList.add('flicker');
-                }
-            }
+        // If already two characters are flickering, do nothing
+        if (currentFlicker.length >= 2) {
+            const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
+            return setTimeout(flickerLetter, delay);
         }
 
-        // Set a random delay for the next flicker (between 1 to 5 seconds)
-        const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
-        setTimeout(flickerLetter, delay);
+        // Randomly pick a new letter to flicker
+        const randomIndex = Math.floor(Math.random() * allSpans.length);
+        const selectedSpan = allSpans[randomIndex];
+
+        // Ensure we don't flicker the same letter more than once and avoid spaces
+        if (!currentFlicker.includes(selectedSpan) && selectedSpan.textContent.trim() !== '') {
+            currentFlicker.push(selectedSpan);
+            selectedSpan.classList.add('flicker');
+            
+            // Handle neighboring flicker
+            const neighborLeft = allSpans[randomIndex - 1];
+            const neighborRight = allSpans[randomIndex + 1];
+
+            // Add flickering class to neighbors as well, if they are not spaces
+            if (neighborLeft && neighborLeft.textContent.trim() !== '') {
+                neighborLeft.classList.add('flicker');
+            }
+            if (neighborRight && neighborRight.textContent.trim() !== '') {
+                neighborRight.classList.add('flicker');
+            }
+
+            // Set a random delay for the next flicker (between 1 to 5 seconds)
+            const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
+            setTimeout(() => {
+                currentFlicker = currentFlicker.filter(span => span !== selectedSpan && span !== neighborLeft && span !== neighborRight);
+                flickerLetter();
+            }, delay);
+        } else {
+            // Retry if the selected span is not valid
+            flickerLetter();
+        }
     }
 
     // Start the first flicker
