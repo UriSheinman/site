@@ -6,7 +6,7 @@ function updateYear() {
 }
 
 // Update year on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     updateYear();
 
     // Attach event listeners to the header element
@@ -40,12 +40,20 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Function to continuously flicker letters with random duration and neighboring letters in parallel but not synchronized
+// Function to control the maximum of two flickers at a time
 function startFlickeringEffect() {
     // Get all spans from header and main only (excluding spaces)
     const allSpans = document.querySelectorAll('header span, main span');
 
+    let flickeringLetters = 0; // Counter to track how many letters are flickering at once
+
     function flickerLetter() {
+        if (flickeringLetters >= 2) {
+            // If 2 letters are already flickering, wait a bit and retry
+            setTimeout(flickerLetter, Math.random() * 1000 + 500);
+            return;
+        }
+
         // Pick a random letter to flicker
         const randomIndex = Math.floor(Math.random() * allSpans.length);
         const currentFlicker = allSpans[randomIndex];
@@ -55,10 +63,12 @@ function startFlickeringEffect() {
 
         currentFlicker.style.animationDuration = '0.2s'; // Keep fast flicker speed
         currentFlicker.classList.add('flicker');
+        flickeringLetters++; // Increment the flicker count
 
         // Remove flicker after random duration
         setTimeout(() => {
             currentFlicker.classList.remove('flicker');
+            flickeringLetters--; // Decrement the flicker count once done
         }, flickerDuration);
 
         // Flicker neighboring letters with a slight delay (not synchronized)
@@ -67,12 +77,16 @@ function startFlickeringEffect() {
             if (nextIndex < allSpans.length && allSpans[nextIndex].textContent !== ' ') {
                 const neighborFlickerDelay = Math.random() * 200; // Add a small delay for the neighbor
                 setTimeout(() => {
-                    allSpans[nextIndex].style.animationDuration = '0.2s';
-                    allSpans[nextIndex].classList.add('flicker');
+                    if (flickeringLetters < 2) { // Check the flicker limit
+                        allSpans[nextIndex].style.animationDuration = '0.2s';
+                        allSpans[nextIndex].classList.add('flicker');
+                        flickeringLetters++;
 
-                    setTimeout(() => {
-                        allSpans[nextIndex].classList.remove('flicker');
-                    }, flickerDuration);
+                        setTimeout(() => {
+                            allSpans[nextIndex].classList.remove('flicker');
+                            flickeringLetters--;
+                        }, flickerDuration);
+                    }
                 }, neighborFlickerDelay);
             }
         }
