@@ -38,49 +38,28 @@ document.addEventListener('DOMContentLoaded', function() {
 // Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
     const allSpans = document.querySelectorAll('header span, main span');
-    let currentFlicker = null;
-
+    
     function flickerLetter() {
-        // Clear the previous flickering letter
-        if (currentFlicker) {
-            currentFlicker.classList.remove('flicker');
-        }
-
         // Pick a random letter to flicker
         const randomIndex = Math.floor(Math.random() * allSpans.length);
-        currentFlicker = allSpans[randomIndex];
-        currentFlicker.classList.add('flicker');
-
-        // Set a random delay for the next flicker (between 1 to 5 seconds)
-        const flickerDuration = Math.random() * 4000 + 1000; // Flicker duration between 1 to 5 seconds
-
-        // Random chance to create a spark effect (occurs occasionally)
-        const sparkChance = Math.random();
-        if (sparkChance < 0.3) { // 30% chance to create a spark
-            createSpark(currentFlicker);
+        const flickerCount = Math.floor(Math.random() * 2) + 1; // Flicker either 1 or 2 characters
+        
+        for (let i = 0; i < flickerCount; i++) {
+            let indexToFlicker = randomIndex + (Math.random() < 0.5 ? -1 : 1); // Choose neighboring character
+            if (indexToFlicker >= 0 && indexToFlicker < allSpans.length) {
+                allSpans[indexToFlicker].classList.add('flicker');
+                // Remove flicker class after a short time
+                setTimeout(() => {
+                    allSpans[indexToFlicker].classList.remove('flicker');
+                }, Math.random() * 4000 + 1000); // Flicker duration between 1 to 5 seconds
+            }
         }
 
-        setTimeout(flickerLetter, flickerDuration);
+        // Set a random delay for the next flicker
+        const delay = Math.random() * 4000 + 1000;
+        setTimeout(flickerLetter, delay);
     }
 
     // Start the first flicker
     flickerLetter();
-}
-
-// Function to create a spark at the flickering letter's position
-function createSpark(letter) {
-    const spark = document.createElement('div');
-    spark.className = 'spark';
-    
-    // Get the position of the letter to place the spark
-    const rect = letter.getBoundingClientRect();
-    spark.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
-    spark.style.top = `${rect.top + window.scrollY + rect.height}px`;
-
-    document.body.appendChild(spark);
-
-    // Remove spark from the DOM after the animation ends
-    spark.addEventListener('animationend', () => {
-        spark.remove();
-    });
 }
