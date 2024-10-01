@@ -19,7 +19,9 @@ document.querySelector('header').addEventListener('click', redirectToUriSheinman
 // Function to wrap each character in a span, but exclude the footer
 function wrapCharactersWithSpan(element) {
     const text = element.textContent;
-    const wrappedText = text.split('').map(char => `<span>${char}</span>`).join('');
+    const wrappedText = text.split('').map(char => {
+        return char === ' ' ? '&nbsp;' : `<span>${char}</span>`; // Preserve spaces
+    }).join('');
     element.innerHTML = wrappedText;
 }
 
@@ -35,41 +37,80 @@ document.addEventListener('DOMContentLoaded', function() {
     startFlickeringEffect();
 });
 
-// Function to randomly flicker letters (max 2 at a time)
+// Function to randomly flicker one letter at a time (excluding footer)
 function startFlickeringEffect() {
     const allSpans = document.querySelectorAll('header span, main span');
-    const flickerDuration = Math.random() * 4000 + 1000; // Random flicker duration between 1 to 5 seconds
-    const maxFlickers = 2; // Maximum flickering characters
+    let currentFlicker;
+    let currentSparks = [];
 
-    function flickerLetters() {
-        // Get currently flickering spans
-        const currentlyFlickering = Array.from(allSpans).filter(span => span.classList.contains('flicker'));
-
-        // Flicker up to the max allowed
-        if (currentlyFlickering.length < maxFlickers) {
-            // Pick a random letter to flicker that isn't already flickering
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * allSpans.length);
-            } while (currentlyFlickering.includes(allSpans[randomIndex])); // Ensure it’s not already flickering
-            
-            // Flicker the chosen letter
-            allSpans[randomIndex].classList.add('flicker');
-            
-            // Remove flicker class after a short time
-            setTimeout(() => {
-                allSpans[randomIndex].classList.remove('flicker');
-            }, flickerDuration);
+    function flickerLetter() {
+        // Clear the previous flickering letter
+        if (currentFlicker) {
+            currentFlicker.classList.remove('flicker');
+            removeSparks();
         }
 
-        // Set a random delay for the next flicker
-        const delay = Math.random() * 4000 + 1000; // Random delay between 1 to 5 seconds
-        setTimeout(flickerLetters, delay);
+        // Pick a random letter to flicker
+        const randomIndex = Math.floor(Math.random() * allSpans.length);
+        currentFlicker = allSpans[randomIndex];
+        currentFlicker.classList.add('flicker');
+
+        // Randomly create sparks
+        createSparks(currentFlicker);
+
+        // Set a random delay for the next flicker (between 1 to 5 seconds)
+        const delay = Math.random() * 4000 + 1000; // 1 to 5 seconds
+        setTimeout(flickerLetter, delay);
     }
 
-    // Start flickering
-    flickerLetters();
+    // Start the first flicker
+    flickerLetter();
+
+    function createSparks(letterElement) {
+        const rect = letterElement.getBoundingClientRect();
+        const sparkCount = Math.floor(Math.random() * 5) + 3; // Random sparks between 3 and 7
+
+        for (let i = 0; i < sparkCount; i++) {
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            document.body.appendChild(spark);
+
+            // Position the spark
+            const x = rect.left + rect.width / 2 + (Math.random() * 20 - 10); // Center of the letter
+            const y = rect.top + rect.height;
+            spark.style.left = `${x}px`;
+            spark.style.top = `${y}px`;
+
+            // Remove the spark after animation ends
+            setTimeout(() => {
+                spark.remove();
+            }, 1000); // Match the duration of the fall animation
+        }
+    }
+
+    function removeSparks() {
+        const sparks = document.querySelectorAll('.spark');
+        sparks.forEach(spark => spark.remove());
+    }
 }
 
-// Start the flickering effect on load
-document.addEventListener('DOMContentLoaded', startFlickeringEffect);
+// Function to randomly create particles on the screen
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    const size = Math.random() * 5 + 2; // Random size
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${Math.random() * window.innerWidth}px`;
+    particle.style.top = `${window.innerHeight}px`; // Start from bottom
+
+    document.body.appendChild(particle);
+
+    // Remove particle after animation ends
+    setTimeout(() => {
+        particle.remove();
+    }, 2000); // Match the duration of the particle animation
+}
+
+// Create particles at intervals
+setInterval(createParticle, 500); // Adjust frequency of particles
