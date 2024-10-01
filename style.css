@@ -5,9 +5,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: linear-gradient(135deg, #000000, #2a2a2a);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite; /* Background gradient animation */
+    background-color: #000000; /* Solid black background */
     color: #ffffff; /* White text */
 }
 
@@ -71,7 +69,7 @@ footer p {
         opacity: 1;
     }
     50% {
-        opacity: 0.3;
+        opacity: 0.5; /* Adjusted flicker intensity */
     }
     100% {
         opacity: 1;
@@ -80,27 +78,14 @@ footer p {
 
 /* Class for flickering letter */
 .flicker {
-    animation: flicker 0.25s steps(1, end) infinite; /* Slightly faster flicker duration */
+    animation: flicker 0.3s steps(1, end) infinite; /* Slower flicker duration */
     color: #ffffff; /* Match text color */
-}
-
-/* Background gradient animation */
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
 }
 
 /* Particle effect styles */
 .particle {
     position: absolute;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.8); /* White color for visibility */
     border-radius: 50%;
     pointer-events: none; /* Prevent interaction */
     animation: particleAnimation 2s ease forwards;
