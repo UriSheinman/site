@@ -71,7 +71,7 @@ function startFlickeringEffect() {
 
 // Create background particles
 function createParticles() {
-    const particleCount = 10; // Number of particles to generate
+    const particleCount = 5; // Number of particles to generate per interval
 
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -92,4 +92,4 @@ function createParticles() {
 }
 
 // Periodically create particles
-setInterval(createParticles, 3000); // Adjust interval as needed
+setInterval(createParticles, 1000); // Create particles every second
