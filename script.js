@@ -6,95 +6,74 @@ function updateYear() {
 }
 
 // Update year on page load
-document.addEventListener('DOMContentLoaded', function () {
-    updateYear();
-
-    // Attach event listeners to the header element
-    document.querySelector('header').addEventListener('click', redirectToUriSheinman);
-
-    // Wrap characters in spans for flickering effect
-    const header = document.querySelector('header h1');
-    const mainHeading = document.querySelector('main h2');
-
-    wrapCharactersWithSpan(header);
-    wrapCharactersWithSpan(mainHeading);
-
-    // Start the continuous flickering effect on page load
-    startFlickeringEffect();
-});
+document.addEventListener('DOMContentLoaded', updateYear);
 
 // Function to redirect to urisheinman.com when the header is clicked
 function redirectToUriSheinman() {
     window.location.href = 'https://urisheinman.com';
 }
 
-// Function to wrap each character in a span, excluding spaces
+// Attach event listeners to the elements
+document.querySelector('header').addEventListener('click', redirectToUriSheinman);
+
+// Function to wrap each character in a span, but exclude the footer
 function wrapCharactersWithSpan(element) {
     const text = element.textContent;
-    const wrappedText = text.split('').map(char => {
-        if (char === ' ') {
-            return ' '; // Leave spaces as-is, no span wrapping
-        }
-        return `<span>${char}</span>`; // Wrap non-space characters in spans
-    }).join('');
+    const wrappedText = text.split('').map(char => char === ' ' ? char : `<span>${char}</span>`).join('');
     element.innerHTML = wrappedText;
 }
 
-// Function to control the maximum of two flickers at a time
-function startFlickeringEffect() {
-    // Get all spans from header and main only (excluding spaces)
-    const allSpans = document.querySelectorAll('header span, main span');
+// Apply the wrapping to header and main content only (no footer)
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('header h1');
+    const mainHeading = document.querySelector('main h2');
 
-    let flickeringLetters = 0; // Counter to track how many letters are flickering at once
+    wrapCharactersWithSpan(header);
+    wrapCharactersWithSpan(mainHeading);
+
+    // Start the random flickering effect
+    startFlickeringEffect();
+});
+
+// Function to randomly flicker one letter at a time (excluding footer)
+function startFlickeringEffect() {
+    // Get all spans from header and main only
+    const allSpans = document.querySelectorAll('header span, main span');
+    let flickeringIndices = [];
 
     function flickerLetter() {
-        if (flickeringLetters >= 2) {
-            // If 2 letters are already flickering, wait a bit and retry
-            setTimeout(flickerLetter, Math.random() * 1000 + 500);
-            return;
+        // Ensure only two characters are flickering at a time
+        while (flickeringIndices.length >= 2) {
+            flickeringIndices.splice(0, 1); // Remove the first index
         }
 
         // Pick a random letter to flicker
-        const randomIndex = Math.floor(Math.random() * allSpans.length);
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * allSpans.length);
+        } while (flickeringIndices.includes(randomIndex) || allSpans[randomIndex].textContent === ' '); // Avoid spaces
+
+        flickeringIndices.push(randomIndex);
         const currentFlicker = allSpans[randomIndex];
-
-        // Randomly set a flicker duration between 1 and 5 seconds
-        const flickerDuration = Math.random() * 4000 + 1000; // Between 1s and 5s
-
-        currentFlicker.style.animationDuration = '0.2s'; // Keep fast flicker speed
         currentFlicker.classList.add('flicker');
-        flickeringLetters++; // Increment the flicker count
 
-        // Remove flicker after random duration
-        setTimeout(() => {
-            currentFlicker.classList.remove('flicker');
-            flickeringLetters--; // Decrement the flicker count once done
-        }, flickerDuration);
-
-        // Flicker neighboring letters with a slight delay (not synchronized)
-        if (Math.random() < 0.5) {
-            const nextIndex = randomIndex + 1;
-            if (nextIndex < allSpans.length && allSpans[nextIndex].textContent !== ' ') {
-                const neighborFlickerDelay = Math.random() * 200; // Add a small delay for the neighbor
-                setTimeout(() => {
-                    if (flickeringLetters < 2) { // Check the flicker limit
-                        allSpans[nextIndex].style.animationDuration = '0.2s';
-                        allSpans[nextIndex].classList.add('flicker');
-                        flickeringLetters++;
-
-                        setTimeout(() => {
-                            allSpans[nextIndex].classList.remove('flicker');
-                            flickeringLetters--;
-                        }, flickerDuration);
-                    }
-                }, neighborFlickerDelay);
-            }
+        // Occasionally add spark effect
+        if (Math.random() < 0.1) {
+            currentFlicker.classList.add('spark');
+            setTimeout(() => {
+                currentFlicker.classList.remove('spark');
+            }, 500); // Remove spark effect after 500ms
         }
 
-        // Immediately flick another letter once the current flicker starts (no delay)
-        setTimeout(flickerLetter, Math.random() * 1000 + 500); // Flicker delay between 0.5s to 1.5s
+        // Set a random duration for the flicker effect (between 1 and 5 seconds)
+        const flickerDuration = Math.random() * 4000 + 1000; // between 1000ms and 5000ms
+        setTimeout(() => {
+            currentFlicker.classList.remove('flicker');
+            flickeringIndices.splice(flickeringIndices.indexOf(randomIndex), 1); // Remove from flickering indices
+            flickerLetter(); // Call flicker again
+        }, flickerDuration);
     }
 
-    // Start the first flicker immediately
+    // Start the first flicker
     flickerLetter();
 }
