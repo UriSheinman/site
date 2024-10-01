@@ -7,7 +7,7 @@ body {
     min-height: 100vh;
     background-color: #000000; /* Solid black background */
     color: #ffffff; /* White text */
-    overflow: hidden; /* Prevent scrolling */
+    overflow: auto; /* Allow scrolling */
 }
 
 /* Header styling */
