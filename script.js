@@ -37,110 +37,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to randomly flicker letters (excluding footer)
 function startFlickeringEffect() {
-    // Get all spans from header and main only
     const allSpans = document.querySelectorAll('header span, main span');
-    let flickeringIndexes = []; // Keep track of flickering indexes
+    let flickeringIndexes = []; // Track flickering indexes
 
     function flickerLetter() {
-        // Clear previous flickering letters
+        // Remove flicker from previous letters if any
         flickeringIndexes.forEach(index => {
             allSpans[index].classList.remove('flicker');
         });
 
-        // If two characters are already flickering, do nothing
+        // Ensure no more than two characters are flickering at the same time
         if (flickeringIndexes.length >= 2) {
-            return setTimeout(flickerLetter, 500); // Retry after a short delay
+            return; // Don't initiate more flickers
         }
 
-        // Randomly pick a new letter to flicker
-        const randomIndex = Math.floor(Math.random() * allSpans.length);
-        const selectedSpan = allSpans[randomIndex];
-
-        // Ensure we don't flicker the same letter more than once and avoid spaces
-        if (!flickeringIndexes.includes(randomIndex) && selectedSpan.textContent.trim() !== '') {
-            flickeringIndexes.push(randomIndex);
-            selectedSpan.classList.add('flicker');
-
-            // Handle neighboring flicker
-            const neighborLeft = allSpans[randomIndex - 1];
-            const neighborRight = allSpans[randomIndex + 1];
-
-            // Random delay for neighboring flickers to create a staggered effect
-            if (neighborLeft && neighborLeft.textContent.trim() !== '' && !flickeringIndexes.includes(randomIndex - 1)) {
-                flickeringIndexes.push(randomIndex - 1);
-                neighborLeft.classList.add('flicker');
-
-                // Delay for neighbor
-                setTimeout(() => {
-                    flickeringIndexes = flickeringIndexes.filter(index => index !== (randomIndex - 1));
-                    neighborLeft.classList.remove('flicker');
-                }, Math.random() * 3000 + 1000); // Between 1 and 4 seconds
-            }
-
-            if (neighborRight && neighborRight.textContent.trim() !== '' && !flickeringIndexes.includes(randomIndex + 1)) {
-                flickeringIndexes.push(randomIndex + 1);
-                neighborRight.classList.add('flicker');
-
-                // Delay for neighbor
-                setTimeout(() => {
-                    flickeringIndexes = flickeringIndexes.filter(index => index !== (randomIndex + 1));
-                    neighborRight.classList.remove('flicker');
-                }, Math.random() * 3000 + 1000); // Between 1 and 4 seconds
-            }
-
-            // Set a random delay for the next flicker (between 1 to 5 seconds)
-            const delay = Math.random() * 4000 + 1000; // Between 1 and 5 seconds
-            setTimeout(() => {
-                flickeringIndexes = flickeringIndexes.filter(index => index !== randomIndex);
-                selectedSpan.classList.remove('flicker');
-                flickerLetter(); // Call again for the next flicker
-            }, delay);
-        } else {
-            // Retry if the selected span is not valid
-            flickerLetter();
+        // Pick a random index to flicker
+        let randomIndex = Math.floor(Math.random() * allSpans.length);
+        
+        // Ensure the chosen character is not a space and isn't flickering already
+        while (flickeringIndexes.includes(randomIndex) || allSpans[randomIndex].textContent.trim() === '') {
+            randomIndex = Math.floor(Math.random() * allSpans.length);
         }
+
+        // Add flicker to the selected character
+        flickeringIndexes.push(randomIndex);
+        allSpans[randomIndex].classList.add('flicker');
+
+        // Neighboring flickering logic
+        let shouldFlickerNeighbor = Math.random() < 0.5; // 50% chance to flicker a neighbor
+        if (shouldFlickerNeighbor) {
+            let neighboringIndex;
+            let direction = Math.random() < 0.5 ? -1 : 1; // Pick random direction (-1 for left, 1 for right)
+
+            // Check bounds and valid neighboring character
+            neighboringIndex = randomIndex + direction;
+            if (neighboringIndex >= 0 && neighboringIndex < allSpans.length && allSpans[neighboringIndex].textContent.trim() !== '') {
+                flickeringIndexes.push(neighboringIndex);
+                allSpans[neighboringIndex].classList.add('flicker');
+
+                // Remove the neighboring flicker after a slight delay to make it independent
+                setTimeout(() => {
+                    allSpans[neighboringIndex].classList.remove('flicker');
+                    flickeringIndexes = flickeringIndexes.filter(index => index !== neighboringIndex);
+                }, Math.random() * 200 + 100); // A slight random delay
+            }
+        }
+
+        // Remove flicker after a random delay (1-5 seconds)
+        const flickerDuration = Math.random() * 4000 + 1000;
+        setTimeout(() => {
+            allSpans[randomIndex].classList.remove('flicker');
+            flickeringIndexes = flickeringIndexes.filter(index => index !== randomIndex);
+        }, flickerDuration);
+
+        // Continue flickering with a random delay (ensures continuous flickering)
+        const nextFlickerDelay = Math.random() * 1000 + 500; // Between 0.5 and 1.5 seconds
+        setTimeout(flickerLetter, nextFlickerDelay);
     }
 
     // Start the first flicker
     flickerLetter();
 }
-
-// Create background particles
-function createParticles() {
-    const particleCount = 3; // Number of particles to generate per interval
-
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        document.body.appendChild(particle);
-
-        // Randomize size for variety
-        const size = Math.random() * 5 + 5; // Size between 5px and 10px
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-
-        // Position the particle randomly within the viewport
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-
-        // Randomize the direction of the particles
-        const angle = Math.random() * 360; // Random angle
-        const distance = Math.random() * 50 + 30; // Random distance
-        const xOffset = distance * Math.cos(angle * (Math.PI / 180));
-        const yOffset = distance * Math.sin(angle * (Math.PI / 180));
-
-        // Apply the animation with randomized direction
-        particle.style.transition = `transform 2s ease`;
-        particle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-
-        // Remove the particle after animation ends
-        setTimeout(() => {
-            particle.remove();
-        }, 2000); // Match the duration of the fall animation
-    }
-}
-
-// Periodically create particles
-setInterval(createParticles, 1000); // Create particles every second
