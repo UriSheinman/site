@@ -41,57 +41,38 @@ function startFlickeringEffect() {
     let flickeringIndexes = []; // Track flickering indexes
 
     function flickerLetter() {
-        // Remove flicker from previous letters if any
+        // Clear old flickers
         flickeringIndexes.forEach(index => {
             allSpans[index].classList.remove('flicker');
         });
 
-        // Ensure no more than two characters are flickering at the same time
-        if (flickeringIndexes.length >= 2) {
-            return; // Don't initiate more flickers
-        }
+        // Clear the tracking array
+        flickeringIndexes = [];
 
-        // Pick a random index to flicker
-        let randomIndex = Math.floor(Math.random() * allSpans.length);
-        
-        // Ensure the chosen character is not a space and isn't flickering already
-        while (flickeringIndexes.includes(randomIndex) || allSpans[randomIndex].textContent.trim() === '') {
-            randomIndex = Math.floor(Math.random() * allSpans.length);
-        }
+        // Pick up to 2 random indexes that will flicker
+        let randomIndex1 = Math.floor(Math.random() * allSpans.length);
+        let randomIndex2;
 
-        // Add flicker to the selected character
-        flickeringIndexes.push(randomIndex);
-        allSpans[randomIndex].classList.add('flicker');
+        do {
+            randomIndex2 = Math.floor(Math.random() * allSpans.length);
+        } while (randomIndex2 === randomIndex1); // Ensure different random indexes
 
-        // Neighboring flickering logic
-        let shouldFlickerNeighbor = Math.random() < 0.5; // 50% chance to flicker a neighbor
-        if (shouldFlickerNeighbor) {
-            let neighboringIndex;
-            let direction = Math.random() < 0.5 ? -1 : 1; // Pick random direction (-1 for left, 1 for right)
+        // Add flickering classes to both random characters
+        flickeringIndexes.push(randomIndex1);
+        flickeringIndexes.push(randomIndex2);
 
-            // Check bounds and valid neighboring character
-            neighboringIndex = randomIndex + direction;
-            if (neighboringIndex >= 0 && neighboringIndex < allSpans.length && allSpans[neighboringIndex].textContent.trim() !== '') {
-                flickeringIndexes.push(neighboringIndex);
-                allSpans[neighboringIndex].classList.add('flicker');
+        allSpans[randomIndex1].classList.add('flicker');
+        allSpans[randomIndex2].classList.add('flicker');
 
-                // Remove the neighboring flicker after a slight delay to make it independent
-                setTimeout(() => {
-                    allSpans[neighboringIndex].classList.remove('flicker');
-                    flickeringIndexes = flickeringIndexes.filter(index => index !== neighboringIndex);
-                }, Math.random() * 200 + 100); // A slight random delay
-            }
-        }
-
-        // Remove flicker after a random delay (1-5 seconds)
+        // Remove flicker after a random duration (1-5 seconds)
         const flickerDuration = Math.random() * 4000 + 1000;
         setTimeout(() => {
-            allSpans[randomIndex].classList.remove('flicker');
-            flickeringIndexes = flickeringIndexes.filter(index => index !== randomIndex);
+            allSpans[randomIndex1].classList.remove('flicker');
+            allSpans[randomIndex2].classList.remove('flicker');
         }, flickerDuration);
 
-        // Continue flickering with a random delay (ensures continuous flickering)
-        const nextFlickerDelay = Math.random() * 1000 + 500; // Between 0.5 and 1.5 seconds
+        // Stagger the timing of the flickers to avoid synchronization
+        const nextFlickerDelay = Math.random() * 800 + 300; // Flicker every 300ms to 1.1s
         setTimeout(flickerLetter, nextFlickerDelay);
     }
 
