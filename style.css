@@ -98,7 +98,7 @@ footer p {
     }
 }
 
-/* Particle effect */
+/* Particle effect styles */
 .particle {
     position: absolute;
     background: rgba(255, 255, 255, 0.8);
@@ -107,6 +107,7 @@ footer p {
     animation: particleAnimation 2s ease forwards;
 }
 
+/* Particle animation */
 @keyframes particleAnimation {
     0% {
         transform: translateY(0) scale(1);
