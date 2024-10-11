@@ -1,48 +1,212 @@
-// Function to check if today is a Jewish holiday (or the day before)
+// Function to get the current Jewish holiday using Hebcal's JSON API
 function getJewishHoliday() {
     const today = new Date();
-    console.log('Today:', today); // Log today's date
+    const hebcalUrl = `https://www.hebcal.com/converter?cfg=json&gy=${today.getFullYear()}&gm=${today.getMonth() + 1}&gd=${today.getDate()}&g2h=1`;
 
-    const hebrewYear = new Hebcal.HDate(today).getFullYear();
-    const jewishHolidays = new Hebcal.HebrewCalendar({
-        year: hebrewYear,
-        isHebrewYear: true,
-        diaspora: false,  // Set to true for diaspora holidays
-        major: true,      // We want major Jewish holidays
-    });
+    // Fetch the Jewish holiday data from Hebcal API
+    fetch(hebcalUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Find the current holiday (if any) from the response
+            const holiday = data.items.find(item => item.category === 'holiday');
+            if (holiday) {
+                console.log('Holiday detected:', holiday.title);
+                applyHolidayChanges(holiday.title); // Apply holiday decorations
+            } else {
+                console.log('No Jewish holiday today');
+                resetHolidayChanges(); // Reset to default state if no holiday
+            }
+        })
+        .catch(error => console.error('Error fetching holiday data:', error));
+}
 
-    const holidays = jewishHolidays.holidays();
-    console.log('Holidays for this year:', holidays); // Log holidays for the year
+// Function to apply holiday changes based on the detected holiday
+function applyHolidayChanges(holidayTitle) {
+    // Determine the holiday and apply corresponding changes
+    const holidayData = getHolidayData(holidayTitle);
 
-    for (const holidayObj of holidays) {
-        const holidayDate = holidayObj.greg();
-        let dayBefore = new Date(holidayDate);
-        dayBefore.setDate(holidayDate.getDate() - 1); // Set the date to the day before
+    if (holidayData) {
+        document.body.style.backgroundColor = holidayData.bgColor;
+        document.querySelector('header h1').style.color = holidayData.textColor;
+        document.querySelector('main h2').style.color = holidayData.textColor;
+        // Add any other decorations or styles here as needed
+        console.log(`Applied changes for: ${holidayTitle}`);
+    }
+}
 
-        console.log('Day before:', dayBefore); // Log the day before the holiday
+// Function to get the decorations and colors based on the holiday title
+function getHolidayData(holidayTitle) {
+    const holidayMap = {
+        "Rosh Hashanah": { bgColor: "#A4D3B8", textColor: "#FF5733" },
+        "Yom Kippur": { bgColor: "#C0C0C0", textColor: "#4B0082" },
+        "Sukkot": { bgColor: "#FFD700", textColor: "#006400" },
+        "Chanukah": { bgColor: "#4B0082", textColor: "#FFD700" },
+        "Purim": { bgColor: "#FF69B4", textColor: "#FFFFFF" },
+        "Passover": { bgColor: "#90EE90", textColor: "#FF6347" },
+        "Shavuot": { bgColor: "#FFFACD", textColor: "#8B0000" }
+        // Add more holidays as needed
+    };
 
-        if (today >= dayBefore && today <= holidayDate) {
-            console.log('Holiday detected:', holidayObj.desc);
-            return holidayObj.desc;
+    return holidayMap[holidayTitle] || null; // Default to null if holiday not in the map
+}
+
+// Function to reset to default state when no holiday is detected
+function resetHolidayChanges() {
+    document.body.style.backgroundColor = "#000000"; // Default background color (black)
+    document.querySelector('header h1').style.color = "#FFFFFF"; // Default text color (white)
+    document.querySelector('main h2').style.color = "#FFFFFF"; // Default text color (white)
+    console.log('Reset to default styling (no holiday).');
+}
+
+// Apply holiday changes when the page is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    getJewishHoliday(); // Fetch the current holiday and apply changes
+});
+
+// Function to update the year in the footer (used in your original code)
+function updateYear() {
+    const yearElement = document.getElementById('year');
+    const currentYear = new Date().getFullYear();
+    yearElement.textContent = currentYear + 1;
+}
+
+// Update year on page load
+document.addEventListener('DOMContentLoaded', updateYear);
+
+// Function to redirect to a URL when the header is clicked
+function redirectToUriSheinman() {
+    window.location.href = 'https://urisheinman.com';
+}
+
+// Attach event listeners
+document.querySelector('header').addEventListener('click', redirectToUriSheinman);
+
+// Function to wrap each character in a span (for flicker effect)
+function wrapCharactersWithSpan(element) {
+    const text = element.textContent;
+    const wrappedText = text.split('').map(char => char === ' ' ? ' ' : `<span>${char}</span>`).join('');
+    element.innerHTML = wrappedText;
+}
+
+// Apply wrapping to header and main content only
+document.addEventListener('DOMContentLoaded', function () {
+    const header = document.querySelector('header h1');
+    const mainHeading = document.querySelector('main h2');
+    wrapCharactersWithSpan(header);
+    wrapCharactersWithSpan(mainHeading);
+    startFlickeringEffect();
+    createParticles();
+});
+
+// Flicker effect with maximum 2 characters at a time and random neighboring flicker
+function startFlickeringEffect() {
+    const allSpans = document.querySelectorAll('header span, main span');
+    let activeFlickers = [];
+
+    function flickerLetter() {
+        if (activeFlickers.length >= 2) {
+            const spanToReset = activeFlickers.shift();
+            spanToReset.classList.remove('flicker');
+        }
+
+        let randomIndex = Math.floor(Math.random() * allSpans.length);
+        let randomSpan = allSpans[randomIndex];
+
+        if (!randomSpan.classList.contains('flicker')) {
+            randomSpan.classList.add('flicker');
+            activeFlickers.push(randomSpan);
+        }
+
+        // Random neighboring flicker logic
+        if (Math.random() < 0.2) {  // 20% chance of neighboring flicker
+            const neighborIndex = (randomIndex + 1) % allSpans.length;
+            const neighborSpan = allSpans[neighborIndex];
+            if (!neighborSpan.classList.contains('flicker')) {
+                neighborSpan.classList.add('flicker');
+                activeFlickers.push(neighborSpan);
+            }
+        }
+
+        const delay = Math.random() * 3000 + 500;  // Random delay between 0.5 to 3.5 seconds
+        setTimeout(flickerLetter, delay);
+    }
+
+    flickerLetter();
+}
+
+// Particle system with glowing effect
+function createParticles() {
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '0';
+    canvas.style.pointerEvents = 'none';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+    const particleCount = 100;
+
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 2 + 1; // Increase size for better visibility
+            this.speedX = (Math.random() * 0.5) - 0.25;
+            this.speedY = (Math.random() * 0.5) - 0.25;
+            this.alpha = 1; // Full glow
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Reset particle position if it goes off-screen
+            if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+            if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; // White color with full alpha for glow
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
         }
     }
-    return null;
-}
 
-// Function to apply holiday-specific color changes
-function applyHolidayChanges() {
-    const holiday = getJewishHoliday();
-    const holidayStylesheet = document.getElementById('holiday-stylesheet');
-
-    if (holiday) {
-        document.querySelector('main h2').textContent = `Happy ${holiday}!`;
-        holidayStylesheet.setAttribute('href', `${holiday.toLowerCase().replace(/\s/g, '-')}.css`);
-        console.log('Holiday applied:', holiday); // Log applied holiday
-    } else {
-        holidayStylesheet.setAttribute('href', '');  // Default no holiday styling
-        console.log('No holiday detected');
+    function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < particleCount; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            particlesArray.push(new Particle(x, y));
+        }
     }
-}
 
-// Run on page load
-document.addEventListener('DOMContentLoaded', applyHolidayChanges);
+    function handleParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+        }
+    }
+
+    function animateParticles() {
+        handleParticles();
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    // Resize canvas when window is resized
+    window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles(); // Re-initialize particles on resize
+    });
+}
