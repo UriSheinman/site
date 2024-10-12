@@ -7,8 +7,7 @@
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     position: relative; /* Change fixed to relative */
     top: 1rem; /* Adjust as needed to position below the Hi message */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust to truly center it */
+    /* Remove left and transform to ensure proper centering */
     z-index: 1000; /* Ensure it's on top of other elements */
     animation: flicker 1s infinite; /* Add flickering effect */
     margin-top: 10px; /* Add some space above the message */
