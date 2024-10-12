@@ -37,10 +37,7 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    
-    // Reduce confetti amount based on screen size
-    const isMobile = window.innerWidth < 768; // Adjust the width based on your mobile breakpoint
-    const particleCount = isMobile ? 100 : 300; // Fewer particles on mobile
+    const particleCount = 150; // Reduced number of confetti particles for mobile
 
     class ConfettiParticle {
         constructor(x, y) {
@@ -99,5 +96,30 @@ function createConfetti() {
     });
 }
 
-// Disable normal particles if in birthday mode
-let particlesEnabled = false; // Ensure particles are turned off during birthday
+/* Birthday message styling */
+#birthday-message {
+    font-family: 'SUSE', sans-serif; /* Use your site's font */
+    font-size: 2rem; /* Adjust size as needed */
+    color: #ffffff; /* White text */
+    text-align: center; /* Center the message */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
+    position: absolute; /* Use absolute positioning */
+    top: calc(2rem + 5em); /* Adjust this value to position below the Hi message */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust to truly center it */
+    z-index: 1000; /* Ensure it's on top of other elements */
+    animation: flicker 1s infinite; /* Add flickering effect */
+}
+
+/* Flicker effect */
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5; /* Adjust flicker intensity */
+    }
+    100% {
+        opacity: 1;
+    }
+}
