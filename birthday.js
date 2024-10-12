@@ -18,8 +18,9 @@ if (isBirthday()) {
         birthdayMessage.innerHTML = "It's my birthday!";
         document.body.appendChild(birthdayMessage);
 
-        // Start confetti
-        createConfetti(); // Start confetti animation
+        // Start confetti and disable particles
+        createConfetti();
+        particlesEnabled = false; // Ensure particles are turned off if confetti is active
     }
 }
 
@@ -58,10 +59,13 @@ function createConfetti() {
 
         draw() {
             ctx.fillStyle = this.color;
+            ctx.shadowColor = this.color; // Set shadow color to match particle color
+            ctx.shadowBlur = 10; // Adjust this value for glow intensity
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
             ctx.fill();
+            ctx.shadowBlur = 0; // Reset shadow blur to avoid affecting other drawings
         }
     }
 
