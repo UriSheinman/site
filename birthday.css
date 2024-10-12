@@ -6,9 +6,9 @@
     text-align: center; /* Center the message */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     position: absolute; /* Use absolute positioning */
-    top: calc(4rem + 4.5em); /* Adjusted to position lower */
+    top: calc(6rem + 4.5em); /* Adjusted to position lower */
     left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust to truly center it */
+    transform: translate(-50%, 0); /* Center horizontally, no vertical offset */
     z-index: 1000; /* Ensure it's on top of other elements */
     animation: flicker 1s infinite; /* Add flickering effect */
 }
