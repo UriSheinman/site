@@ -1,0 +1,8 @@
+/* Birthday message styling */
+.birthday-message {
+    font-family: 'SUSE', sans-serif;
+    font-size: 2rem;
+    color: #ffffff; /* White text */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    margin-top: 20px;
+}
