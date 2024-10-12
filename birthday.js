@@ -18,9 +18,8 @@ if (isBirthday()) {
         birthdayMessage.innerHTML = "It's my birthday!";
         document.body.appendChild(birthdayMessage);
 
-        // Start confetti and disable particles
-        createConfetti();
-        particlesEnabled = false; // Ensure particles are turned off if confetti is active
+        // Start confetti
+        createConfetti(); // Start confetti animation
     }
 }
 
@@ -47,7 +46,6 @@ function createConfetti() {
             this.size = Math.random() * 5 + 5; // Size of confetti
             this.speedY = Math.random() * 3 + 1; // Falling speed
             this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
-            this.alpha = Math.random() * 0.5 + 0.5; // Add transparency for glow effect
         }
 
         update() {
@@ -59,7 +57,7 @@ function createConfetti() {
         }
 
         draw() {
-            ctx.fillStyle = this.color + this.alpha; // Add alpha for glow effect
+            ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
