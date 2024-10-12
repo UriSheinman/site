@@ -1,5 +1,5 @@
 // Toggle birthday mode (set to true to test the effect)
-const isBirthday = true; // Change this to true to simulate birthday mode
+const isBirthday = false; // Change this to true to simulate birthday mode
 
 function checkBirthday() {
     const today = new Date();
@@ -8,11 +8,9 @@ function checkBirthday() {
 }
 
 function updateForBirthday() {
-    const main = document.querySelector('main');
-    const birthdayMessage = document.createElement('span'); // Changed to span for inline display
-    birthdayMessage.classList.add('birthday-message');
+    const birthdayMessage = document.getElementById('birthday-message'); // Get the existing birthday message element
     birthdayMessage.textContent = "It's my birthday!";
-    main.appendChild(birthdayMessage);
+    birthdayMessage.style.display = "block"; // Make it visible
     createConfetti(); // Call to create confetti effect
 }
 
