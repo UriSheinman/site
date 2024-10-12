@@ -1,5 +1,5 @@
 // Test mode to preview the birthday theme
-const testBirthdayMode = false;  // Set to true to test birthday mode
+const testBirthdayMode = true;  // Set to true to test birthday mode
 
 // Update the year in the footer
 function updateYear() {
