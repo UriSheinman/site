@@ -6,8 +6,22 @@
     text-align: center; /* Center the message */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     position: absolute; /* Use absolute positioning */
-    top: 6rem; /* Adjust to your preference */
+    top: calc(2rem + 3.5em); /* Adjust this value to position below the Hi message */
     left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center both vertically and horizontally */
+    transform: translate(-50%, -50%); /* Adjust to truly center it */
     z-index: 1000; /* Ensure it's on top of other elements */
+    animation: flicker 1s infinite; /* Add flickering effect */
+}
+
+/* Flicker effect */
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5; /* Adjust flicker intensity */
+    }
+    100% {
+        opacity: 1;
+    }
 }
