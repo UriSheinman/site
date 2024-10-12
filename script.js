@@ -1,97 +1,147 @@
-// Tester variable for manual control of birthday mode
-const tester = true; // Set to true to activate birthday mode regardless of the date
-
-// Function to check if today is the user's birthday
-function isBirthday() {
-    const today = new Date();
-    return today.getDate() === 29 && today.getMonth() === 11; // December 29th
+// Update the year in the footer
+function updateYear() {
+    const yearElement = document.getElementById('year');
+    const currentYear = new Date().getFullYear();
+    yearElement.textContent = currentYear + 1;
 }
 
-// Activate birthday mode if tester is true or if today is the birthday
-const birthdayMode = tester || isBirthday();
+// Update year on page load
+document.addEventListener('DOMContentLoaded', updateYear);
 
-document.addEventListener("DOMContentLoaded", function () {
-    const body = document.body;
-    const main = document.createElement("main");
-    const header = document.createElement("header");
-    const footer = document.createElement("footer");
+// Function to redirect to a URL when header is clicked
+function redirectToUriSheinman() {
+    window.location.href = 'https://urisheinman.com';
+}
 
-    // Header
-    const title = document.createElement("h1");
-    title.textContent = "URI SHEINMAN";
-    header.appendChild(title);
+// Attach event listeners
+document.querySelector('header').addEventListener('click', redirectToUriSheinman);
 
-    // Main content
-    const greeting = document.createElement("h2");
-    greeting.textContent = "Hi :)";
-    const birthdayText = document.createElement("h2");
-    birthdayText.textContent = "It's my birthday!";
-    birthdayText.classList.add("birthday-text");
+// Function to wrap each character in a span
+function wrapCharactersWithSpan(element) {
+    const text = element.textContent;
+    const wrappedText = text.split('').map(char => char === ' ' ? ' ' : `<span>${char}</span>`).join('');
+    element.innerHTML = wrappedText;
+}
 
-    main.appendChild(greeting);
-    main.appendChild(birthdayText);
-    body.appendChild(header);
-    body.appendChild(main);
-    body.appendChild(footer);
-
-    // Footer
-    const footerText = document.createElement("p");
-    footerText.textContent = "© 2024 Uri Sheinman";
-    footer.appendChild(footerText);
-
-    // Update styles based on birthday mode
-    if (birthdayMode) {
-        body.style.backgroundColor = "#4B0E1D"; // Darker Bordeaux background
-        greeting.style.color = "indigo"; // Indigo greeting
-        greeting.style.textShadow = "0 0 10px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.6)"; // Gold glow
-        birthdayText.style.color = "gold"; // Gold birthday text
-        birthdayText.style.textShadow = "0 0 10px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.6)"; // Gold glow
-        header.style.color = "gold"; // Gold header
-        header.style.textShadow = "0 0 10px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.6)"; // Gold glow
-        // Set particles and flicker effect for birthday mode
-        setBirthdayFlicker(greeting);
-        setBirthdayFlicker(birthdayText);
-    } else {
-        body.style.backgroundColor = "#4B0E1D"; // Default background
-        greeting.style.color = "purple"; // Default text color
-        greeting.style.textShadow = "0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)"; // Default glow
-        birthdayText.style.display = "none"; // Hide birthday text
-        header.style.color = "royalblue"; // Royal blue header
-        header.style.textShadow = "0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)"; // Default glow
-        // Restore normal flicker effect
-        restoreNormalFlicker(greeting);
-    }
-
-    // Particles effect (to be kept in normal mode)
-    particlesJS.load('particles-js', 'particles.json', function() {
-        console.log('callback - particles.js config loaded');
-    });
+// Apply wrapping to header and main content only
+document.addEventListener('DOMContentLoaded', function () {
+    const header = document.querySelector('header h1');
+    const mainHeading = document.querySelector('main h2');
+    wrapCharactersWithSpan(header);
+    wrapCharactersWithSpan(mainHeading);
+    startFlickeringEffect();
+    createParticles();
 });
 
-// Function to set flicker effect for birthday mode
-function setBirthdayFlicker(element) {
-    const text = element.textContent;
-    element.innerHTML = '';
-    for (let i = 0; i < text.length; i++) {
-        const span = document.createElement('span');
-        span.textContent = text[i];
-        if (Math.random() < 0.5) {
-            span.classList.add('flicker');
+// Flicker effect with maximum 2 characters at a time and random neighboring flicker
+function startFlickeringEffect() {
+    const allSpans = document.querySelectorAll('header span, main span');
+    let activeFlickers = [];
+
+    function flickerLetter() {
+        if (activeFlickers.length >= 2) {
+            const spanToReset = activeFlickers.shift();
+            spanToReset.classList.remove('flicker');
         }
-        element.appendChild(span);
+
+        let randomIndex = Math.floor(Math.random() * allSpans.length);
+        let randomSpan = allSpans[randomIndex];
+
+        if (!randomSpan.classList.contains('flicker')) {
+            randomSpan.classList.add('flicker');
+            activeFlickers.push(randomSpan);
+        }
+
+        // Random neighboring flicker logic
+        if (Math.random() < 0.2) {  // 20% chance of neighboring flicker
+            const neighborIndex = (randomIndex + 1) % allSpans.length;
+            const neighborSpan = allSpans[neighborIndex];
+            if (!neighborSpan.classList.contains('flicker')) {
+                neighborSpan.classList.add('flicker');
+                activeFlickers.push(neighborSpan);
+            }
+        }
+
+        const delay = Math.random() * 3000 + 500;  // Random delay between 0.5 to 3.5 seconds
+        setTimeout(flickerLetter, delay);
     }
+
+    flickerLetter();
 }
 
-// Function to restore normal flicker effect
-function restoreNormalFlicker(element) {
-    const text = element.textContent;
-    element.innerHTML = '';
-    for (let i = 0; i < text.length; i++) {
-        const span = document.createElement('span');
-        span.textContent = text[i];
-        if (Math.random() < 0.2) { // Normal flicker probability
-            span.classList.add('flicker');
+// Particle system with glowing effect
+function createParticles() {
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '0';
+    canvas.style.pointerEvents = 'none';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+    const particleCount = 100;
+
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 2 + 1; // Increase size for better visibility
+            this.speedX = (Math.random() * 0.5) - 0.25;
+            this.speedY = (Math.random() * 0.5) - 0.25;
+            this.alpha = 1; // Full glow
         }
-        element.appendChild(span);
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Reset particle position if it goes off-screen
+            if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+            if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+        }
+
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; // White color with full alpha for glow
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
     }
+
+    function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < particleCount; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            particlesArray.push(new Particle(x, y));
+        }
+    }
+
+    function handleParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+        }
+    }
+
+    function animateParticles() {
+        handleParticles();
+        requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    // Resize canvas when window is resized
+    window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles(); // Re-initialize particles on resize
+    });
 }
