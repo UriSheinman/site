@@ -5,8 +5,8 @@
     color: #ffffff; /* White text */
     text-align: center; /* Center the message */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
-    position: fixed; /* Fixed position */
-    top: 20%; /* Position it below the top of the screen */
+    position: relative; /* Change fixed to relative */
+    top: 1rem; /* Adjust as needed to position below the Hi message */
     left: 50%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust to truly center it */
     z-index: 1000; /* Ensure it's on top of other elements */
