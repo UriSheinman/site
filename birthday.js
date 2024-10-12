@@ -9,7 +9,7 @@ function checkBirthday() {
 
 function updateForBirthday() {
     const main = document.querySelector('main');
-    const birthdayMessage = document.createElement('p');
+    const birthdayMessage = document.createElement('span'); // Changed to span for inline display
     birthdayMessage.classList.add('birthday-message');
     birthdayMessage.textContent = "It's my birthday!";
     main.appendChild(birthdayMessage);
@@ -29,30 +29,31 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    const particleCount = 200;
+    const particleCount = 100; // Number of particles
 
     class ConfettiParticle {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.size = Math.random() * 5 + 5; // Increase size for better visibility
-            this.speedX = (Math.random() * 5) - 2.5;
-            this.speedY = Math.random() * 2 + 1; // Start moving upwards
+            this.size = Math.random() * 10 + 5; // Random size
+            this.speedX = (Math.random() * 3) - 1.5; // Random horizontal speed
+            this.speedY = Math.random() * 3 + 2; // Fall speed
             this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
         }
 
         update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.size > 0.2) this.size -= 0.1; // Fade effect
+            this.y += this.speedY; // Move downwards
+            this.x += this.speedX; // Move horizontally
+            // Reset particle position if it goes off-screen
+            if (this.y > canvas.height) {
+                this.y = 0; // Reset to the top
+                this.x = Math.random() * canvas.width; // Random horizontal position
+            }
         }
 
         draw() {
             ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.fill();
+            ctx.fillRect(this.x, this.y, this.size, this.size); // Draw square particle
         }
     }
 
@@ -69,20 +70,12 @@ function createConfetti() {
         for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].update();
             particlesArray[i].draw();
-            if (particlesArray[i].size <= 0.2) {
-                particlesArray.splice(i, 1); // Remove small particles
-                i--;
-            }
         }
     }
 
     function animateParticles() {
         handleParticles();
-        if (particlesArray.length > 0) {
-            requestAnimationFrame(animateParticles);
-        } else {
-            document.body.removeChild(canvas); // Remove canvas when done
-        }
+        requestAnimationFrame(animateParticles); // Loop animation
     }
 
     initParticles();
