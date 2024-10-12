@@ -17,16 +17,27 @@ function isBirthday() {
 
 // Apply birthday theme
 function applyBirthdayTheme() {
-    document.body.style.backgroundColor = "#4B0082"; // Bordeaux red background
-    document.querySelector('header h1').style.color = "gold"; // Gold header
-    document.querySelector('main h2').style.color = "blue"; // Blue "Hi"
-    document.querySelector('footer p').style.color = "purple"; // Purple footer text
+    document.body.style.backgroundColor = "#4B0082"; // Darker Bordeaux background
 
+    const header = document.querySelector('header h1');
+    const mainHeading = document.querySelector('main h2');
+    const footerText = document.querySelector('footer p');
     const birthdayMessage = document.getElementById("birthday-message");
+
+    // Update colors
+    header.style.color = "gold"; // Gold header
+    mainHeading.style.color = "purple"; // Purple main text
+    footerText.style.color = "purple"; // Purple footer text
+
+    // Add birthday message below "Hi :)"
     birthdayMessage.textContent = "It's my birthday!";
     birthdayMessage.style.color = "gold";
     birthdayMessage.style.fontSize = "2rem";
-    
+    birthdayMessage.classList.add("flicker"); // Apply flicker effect to birthday message
+
+    wrapCharactersWithSpan(birthdayMessage); // Make birthday message flicker/glow
+    startFlickeringEffect(); // Start flickering again for birthday text
+
     createConfetti(); // Replace particles with confetti effect
 }
 
@@ -206,7 +217,7 @@ function wrapCharactersWithSpan(element) {
     element.innerHTML = wrappedText;
 }
 
-// Apply wrapping to header and main content only
+// Apply wrapping to header, main content, and birthday message
 document.addEventListener('DOMContentLoaded', function () {
     const header = document.querySelector('header h1');
     const mainHeading = document.querySelector('main h2');
@@ -217,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Flicker effect with maximum 2 characters at a time and random neighboring flicker
 function startFlickeringEffect() {
-    const allSpans = document.querySelectorAll('header span, main span');
+    const allSpans = document.querySelectorAll('header span, main span, #birthday-message span');
     let activeFlickers = [];
 
     function flickerLetter() {
