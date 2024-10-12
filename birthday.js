@@ -37,7 +37,10 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    const particleCount = 300; // Number of confetti particles
+    
+    // Reduce confetti amount based on screen size
+    const isMobile = window.innerWidth < 768; // Adjust the width based on your mobile breakpoint
+    const particleCount = isMobile ? 100 : 300; // Fewer particles on mobile
 
     class ConfettiParticle {
         constructor(x, y) {
@@ -95,3 +98,6 @@ function createConfetti() {
         canvas.height = window.innerHeight;
     });
 }
+
+// Disable normal particles if in birthday mode
+let particlesEnabled = false; // Ensure particles are turned off during birthday
