@@ -11,18 +11,19 @@ function isBirthday() {
 
 // Show the birthday message and start confetti if it's the user's birthday
 if (isBirthday()) {
-    const birthdayMessage = document.createElement('p'); // Changed to 'p' to maintain consistency with other text
+    const birthdayMessage = document.createElement('p'); // Create a <p> element for the message
     birthdayMessage.id = 'birthday-message'; // Use the same ID for CSS styling
     birthdayMessage.innerHTML = "It's my birthday!"; // Message content
     const main = document.querySelector('main'); // Select the main element
-    main.appendChild(birthdayMessage); // Append the message below the "Hi :)" message
+    const hiElement = main.querySelector('h2'); // Select the "Hi :)" element
+    hiElement.insertAdjacentElement('afterend', birthdayMessage); // Append the message right after the "Hi :)" element
 
     // Start confetti and disable particles
     createConfetti();
     particlesEnabled = false; // Ensure particles are turned off if confetti is active
 }
 
-// Confetti creation logic
+// Confetti creation logic (unchanged)
 function createConfetti() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
