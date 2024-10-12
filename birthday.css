@@ -11,6 +11,7 @@
     transform: translateX(-50%); /* Adjust to truly center it */
     z-index: 1000; /* Ensure it's on top of other elements */
     animation: flicker 1s infinite; /* Add flickering effect */
+    margin-top: 10px; /* Add some space above the message */
 }
 
 /* Flicker effect */
