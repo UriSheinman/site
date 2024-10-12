@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
     wrapCharactersWithSpan(header);
     wrapCharactersWithSpan(mainHeading);
     startFlickeringEffect();
-    createParticles();
 });
 
 // Flicker effect with maximum 2 characters at a time and random neighboring flicker
@@ -69,8 +68,8 @@ function startFlickeringEffect() {
     flickerLetter();
 }
 
-// Particle system with glowing effect
-function createParticles() {
+// Regular particle system (will only run if not the user's birthday)
+function createRegularParticles() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -145,3 +144,10 @@ function createParticles() {
         initParticles(); // Re-initialize particles on resize
     });
 }
+
+// Execute the birthday check on page load
+document.addEventListener('DOMContentLoaded', function () {
+    if (!document.getElementById('birthday-message').style.display) {
+        createRegularParticles(); // Only create regular particles if it's not a birthday
+    }
+});
