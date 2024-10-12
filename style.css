@@ -5,8 +5,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #4B0E1D; /* Darker Bordeaux background */
-    color: purple; /* Default text color */
+    background-color: #000000; /* Solid black background */
+    color: #ffffff; /* White text */
     overflow: auto; /* Allow scrolling */
 }
 
@@ -21,7 +21,7 @@ header h1 {
     font-weight: 700;
     font-size: 2rem;
     margin: 0;
-    color: royalblue; /* Royal blue text */
+    color: #ffffff; /* White text */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Increased glowing effect */
 }
 
@@ -39,7 +39,7 @@ main h2 {
     font-size: calc(10vw + 10vh);
     font-weight: 400;
     margin: 0;
-    color: purple; /* Default text color */
+    color: #ffffff;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Increased glowing effect */
     white-space: nowrap;
     line-height: 1;
@@ -51,7 +51,7 @@ footer {
     text-align: center;
     height: 20px;
     padding: 10px 0;
-    background-color: #4B0E1D; /* Matches body */
+    background-color: #000000; /* Background color matches body */
     flex-shrink: 0;
     margin-top: auto;
 }
@@ -60,7 +60,7 @@ footer p {
     margin: 0;
     font-family: 'SUSE', sans-serif;
     font-size: 0.9rem;
-    color: purple; /* Default text color */
+    color: #ffffff;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Increased glowing effect */
 }
 
@@ -77,6 +77,7 @@ footer p {
     }
 }
 
+/* Class for flickering letter */
 .flicker {
-    animation: flicker 0.5s infinite; /* Flicker animation */
+    animation: flicker 0.2s steps(1, end) infinite; /* Faster flicker duration */
 }
