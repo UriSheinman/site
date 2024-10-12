@@ -1,5 +1,5 @@
 // Toggle birthday mode (set to true to test the effect)
-const isBirthday = false; // Change this to true to simulate birthday mode
+const isBirthday = true; // Change this to true to simulate birthday mode
 
 let regularParticlesActive = true; // Flag to control regular particles
 
