@@ -47,6 +47,7 @@ function createConfetti() {
             this.size = Math.random() * 5 + 5; // Size of confetti
             this.speedY = Math.random() * 3 + 1; // Falling speed
             this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
+            this.alpha = Math.random() * 0.5 + 0.5; // Add transparency for glow effect
         }
 
         update() {
@@ -58,14 +59,11 @@ function createConfetti() {
         }
 
         draw() {
-            ctx.fillStyle = this.color;
-            ctx.shadowColor = this.color; // Set shadow color to match particle color
-            ctx.shadowBlur = 10; // Adjust this value for glow intensity
+            ctx.fillStyle = this.color + this.alpha; // Add alpha for glow effect
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
             ctx.fill();
-            ctx.shadowBlur = 0; // Reset shadow blur to avoid affecting other drawings
         }
     }
 
