@@ -6,7 +6,7 @@
     text-align: center; /* Center the message */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     position: absolute; /* Use absolute positioning */
-    top: 60%; /* Adjust as needed to position below the Hi message */
+    top: calc(2rem + 3.5em); /* Adjust this value to position below the Hi message */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust to truly center it */
     z-index: 1000; /* Ensure it's on top of other elements */
