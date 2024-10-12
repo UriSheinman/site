@@ -11,10 +11,11 @@ function isBirthday() {
 
 // Show the birthday message and start confetti if it's the user's birthday
 if (isBirthday()) {
-    const birthdayMessage = document.createElement('div');
-    birthdayMessage.id = 'birthday-message';
-    birthdayMessage.innerHTML = "It's my birthday!";
-    document.body.appendChild(birthdayMessage);
+    const birthdayMessage = document.createElement('p'); // Changed to 'p' to maintain consistency with other text
+    birthdayMessage.id = 'birthday-message'; // Use the same ID for CSS styling
+    birthdayMessage.innerHTML = "It's my birthday!"; // Message content
+    const main = document.querySelector('main'); // Select the main element
+    main.appendChild(birthdayMessage); // Append the message below the "Hi :)" message
 
     // Start confetti and disable particles
     createConfetti();
