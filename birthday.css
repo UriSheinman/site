@@ -4,6 +4,7 @@
     font-size: 2rem;
     color: #ffffff; /* White text */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
-    margin-left: 10px; /* Space between "Hi" and birthday message */
-    display: inline-block; /* To align it next to "Hi" */
+    display: block; /* Ensures it appears below */
+    margin-top: 10px; /* Space above the message */
+    text-align: center; /* Center aligned */
 }
