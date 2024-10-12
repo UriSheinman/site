@@ -1,6 +1,8 @@
 // Toggle birthday mode (set to true to test the effect)
 const isBirthday = false; // Change this to true to simulate birthday mode
 
+let regularParticlesActive = true; // Flag to control regular particles
+
 function checkBirthday() {
     const today = new Date();
     const birthday = new Date(today.getFullYear(), 11, 29); // December 29
@@ -12,6 +14,7 @@ function updateForBirthday() {
     birthdayMessage.textContent = "It's my birthday!";
     birthdayMessage.style.display = "block"; // Make it visible
     createConfetti(); // Call to create confetti effect
+    regularParticlesActive = false; // Disable regular particles
 }
 
 function createConfetti() {
@@ -84,5 +87,10 @@ function createConfetti() {
 document.addEventListener('DOMContentLoaded', function () {
     if (isBirthday || checkBirthday()) {
         updateForBirthday();
+    } else {
+        // Start regular particles if not birthday
+        if (regularParticlesActive) {
+            createRegularParticles(); // Call your regular particle function here if it exists
+        }
     }
 });
