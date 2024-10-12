@@ -5,30 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uri Sheinman</title>
-
-    <!-- Favicon Links -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/assets/img/favicons/site.webmanifest">
-
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="birthday.css"> <!-- Link to birthday CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>URI SHEINMAN</h1>
     </header>
     <main>
-        <h2>Hi :)</h2>
-        <span id="birthday-message" class="birthday-message" style="display:none;"></span> <!-- Birthday message -->
+        <div>
+            <h2>Hi :)</h2>
+            <h3 id="birthday-message" style="display: none;">It's my birthday!</h3> <!-- Hidden by default -->
+        </div>
     </main>
     <footer>
         <p>Uri Sheinman © <span id="year"></span></p>
         <p>info@UriSheinman.com</p>
     </footer>
     <script src="script.js"></script>
-    <script src="birthday.js"></script> <!-- Link to birthday JavaScript -->
+    <script src="birthday.js"></script>
 </body>
 </html>
