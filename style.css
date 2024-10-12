@@ -80,4 +80,5 @@ footer p {
 /* Class for flickering letter */
 .flicker {
     animation: flicker 0.2s steps(1, end) infinite; /* Faster flicker duration */
+    color: #ffffff; /* Match text color */
 }
