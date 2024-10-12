@@ -9,21 +9,22 @@ function isBirthday() {
     return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
 }
 
-// Show the birthday message and start confetti if it's the user's birthday
+// Create and show the birthday message if it's the user's birthday
 if (isBirthday()) {
-    const birthdayMessage = document.createElement('p'); // Create a <p> element for the message
-    birthdayMessage.id = 'birthday-message'; // Use the same ID for CSS styling
-    birthdayMessage.innerHTML = "It's my birthday!"; // Message content
-    const main = document.querySelector('main'); // Select the main element
-    const hiElement = main.querySelector('h2'); // Select the "Hi :)" element
-    hiElement.insertAdjacentElement('afterend', birthdayMessage); // Append the message right after the "Hi :)" element
+    // Check if the message already exists
+    if (!document.getElementById('birthday-message')) {
+        const birthdayMessage = document.createElement('div');
+        birthdayMessage.id = 'birthday-message';
+        birthdayMessage.innerHTML = "It's my birthday!";
+        document.body.appendChild(birthdayMessage);
 
-    // Start confetti and disable particles
-    createConfetti();
-    particlesEnabled = false; // Ensure particles are turned off if confetti is active
+        // Start confetti and disable particles
+        createConfetti();
+        particlesEnabled = false; // Ensure particles are turned off if confetti is active
+    }
 }
 
-// Confetti creation logic (unchanged)
+// Confetti creation logic
 function createConfetti() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
