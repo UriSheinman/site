@@ -1,17 +1,27 @@
 /* Birthday message styling */
 #birthday-message {
-    display: none; /* Hidden by default */
-    font-family: 'SUSE', sans-serif; /* Match the font of the rest of the site */
-    font-size: 1.5rem; /* Adjust as needed */
+    font-family: 'SUSE', sans-serif; /* Use your site's font */
+    font-size: 2rem; /* Adjust size as needed */
     color: #ffffff; /* White text */
+    text-align: center; /* Center the message */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
-    text-align: center; /* Center the birthday message */
-    margin-top: 10px; /* Space above the birthday message */
-    position: relative; /* Allow positioning relative to other elements */
-    animation: flicker 0.2s steps(1, end) infinite; /* Flicker effect */
+    position: fixed; /* Fixed position */
+    top: 20%; /* Position it below the top of the screen */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust to truly center it */
+    z-index: 1000; /* Ensure it's on top of other elements */
+    animation: flicker 1s infinite; /* Add flickering effect */
 }
 
-/* Optional: style adjustments for confetti canvas */
-canvas {
-    z-index: 1; /* Ensure canvas is above other elements for confetti */
+/* Flicker effect */
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5; /* Adjust flicker intensity */
+    }
+    100% {
+        opacity: 1;
+    }
 }
