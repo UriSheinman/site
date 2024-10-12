@@ -1,88 +1,90 @@
-// Toggle variable for testing
-const isBirthday = true; // Set to true to enable birthday mode; false for regular mode.
+// Testing variable to enable or disable birthday mode
+const testBirthdayMode = true; // Set to true to test birthday effects
 
-const birthdayMessage = document.getElementById('birthday-message');
-
-// Function to check if today is the user's birthday
-function isTodayBirthday() {
+// Check if today is the user's birthday or if test mode is enabled
+function isBirthday() {
     const today = new Date();
-    return today.getMonth() === 11 && today.getDate() === 29; // December 29
+    const birthdayMonth = 12; // December
+    const birthdayDate = 29; // 29th
+    return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
 }
 
-// Show birthday message and confetti if it's the user's birthday
-function handleBirthdayEffect() {
-    if (isBirthday || isTodayBirthday()) {
-        birthdayMessage.style.display = 'block'; // Show birthday message
-        createConfetti(); // Start confetti effect
-    }
+// Show the birthday message and start confetti if it's the user's birthday
+if (isBirthday()) {
+    const birthdayMessage = document.createElement('div');
+    birthdayMessage.id = 'birthday-message';
+    birthdayMessage.innerHTML = "It's my birthday!";
+    document.body.appendChild(birthdayMessage);
+
+    // Start confetti and disable particles
+    createConfetti();
+    particlesEnabled = false; // Ensure particles are turned off if confetti is active
 }
 
-// Function to create confetti
+// Confetti creation logic
 function createConfetti() {
-    // Stop existing particles if necessary
-    stopParticles();
-
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
     canvas.style.left = '0';
-    canvas.style.zIndex = '1'; // Ensure confetti is above other elements
+    canvas.style.zIndex = '0';
     canvas.style.pointerEvents = 'none';
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    const confettiCount = 200;
-    const particles = [];
+    const particlesArray = [];
+    const particleCount = 300; // Number of confetti particles
 
     class ConfettiParticle {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.size = Math.random() * 10 + 5; // Random size for confetti
-            this.speedX = Math.random() * 4 - 2; // Random horizontal speed
-            this.speedY = Math.random() * 5 + 2; // Random vertical speed
+            this.size = Math.random() * 5 + 5; // Size of confetti
+            this.speedY = Math.random() * 3 + 1; // Falling speed
             this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
         }
 
         update() {
-            this.x += this.speedX;
             this.y += this.speedY;
-
-            // Reset particle position if it goes off-screen
             if (this.y > canvas.height) {
-                this.x = Math.random() * canvas.width;
-                this.y = -10; // Start from above the canvas
-                this.speedY = Math.random() * 5 + 2; // Reset speed
+                this.y = 0; // Reset to top if off screen
+                this.x = Math.random() * canvas.width; // Random x position
             }
         }
 
         draw() {
             ctx.fillStyle = this.color;
             ctx.beginPath();
-            ctx.rect(this.x, this.y, this.size, this.size); // Square shape
+            ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
             ctx.fill();
         }
     }
 
-    // Initialize confetti particles
-    for (let i = 0; i < confettiCount; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        particles.push(new ConfettiParticle(x, y));
+    function initConfetti() {
+        for (let i = 0; i < particleCount; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            particlesArray.push(new ConfettiParticle(x, y));
+        }
     }
 
-    function animateConfetti() {
+    function handleConfetti() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let particle of particles) {
+        for (let particle of particlesArray) {
             particle.update();
             particle.draw();
         }
+    }
+
+    function animateConfetti() {
+        handleConfetti();
         requestAnimationFrame(animateConfetti);
     }
 
+    initConfetti();
     animateConfetti();
 
     // Resize canvas when window is resized
@@ -91,14 +93,3 @@ function createConfetti() {
         canvas.height = window.innerHeight;
     });
 }
-
-// Function to stop any existing particle effect
-function stopParticles() {
-    const existingCanvas = document.querySelector('canvas');
-    if (existingCanvas) {
-        existingCanvas.remove(); // Remove existing canvas for particles
-    }
-}
-
-// Call function to handle birthday effect
-handleBirthdayEffect();
