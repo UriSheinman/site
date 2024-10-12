@@ -18,9 +18,8 @@ if (isBirthday()) {
         birthdayMessage.innerHTML = "It's my birthday!";
         document.body.appendChild(birthdayMessage);
 
-        // Start confetti and disable particles
-        createConfetti();
-        particlesEnabled = false; // Ensure particles are turned off if confetti is active
+        // Start confetti
+        createConfetti(); // Start confetti animation
     }
 }
 
