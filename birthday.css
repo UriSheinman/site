@@ -1,13 +1,14 @@
 /* Birthday message styling */
 #birthday-message {
     display: none; /* Hidden by default */
-    font-family: 'SUSE', sans-serif;
+    font-family: 'SUSE', sans-serif; /* Match the font of the rest of the site */
     font-size: 1.5rem; /* Adjust as needed */
     color: #ffffff; /* White text */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     text-align: center; /* Center the birthday message */
     margin-top: 10px; /* Space above the birthday message */
     position: relative; /* Allow positioning relative to other elements */
+    animation: flicker 0.2s steps(1, end) infinite; /* Flicker effect */
 }
 
 /* Optional: style adjustments for confetti canvas */
