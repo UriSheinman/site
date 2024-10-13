@@ -1,13 +1,14 @@
 /* Birthday message styling */
 #birthday-message {
-    position: fixed;
-    top: calc(50% - 30px); /* Center vertically with some adjustment */
+    position: absolute;
+    top: calc(2rem + 7em); /* Adjust this value to place one line space beneath the Hi :) message */
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 48px; /* Size of the birthday message text */
-    color: gold; /* Color of the text */
+    transform: translateX(-50%);
+    font-size: 2rem; /* Size of the birthday message text */
+    color: #ffffff; /* White text */
     z-index: 9999; /* Ensure it appears above other elements */
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.8); /* Glowing effect */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
+    animation: flicker 1s infinite; /* Add flickering effect */
 }
 
 /* Flicker effect */
