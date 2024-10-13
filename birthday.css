@@ -1,7 +1,7 @@
 /* Birthday message styling */
 #birthday-message {
     position: absolute;
-    top: calc(2rem + 7em); /* Adjust this value to place one line space beneath the Hi :) message */
+    top: calc(5em); /* Set to a fixed value based on the size of the "Hi :)" text */
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem; /* Size of the birthday message text */
@@ -9,6 +9,7 @@
     z-index: 9999; /* Ensure it appears above other elements */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
     animation: flicker 1s infinite; /* Add flickering effect */
+    white-space: nowrap; /* Prevent wrapping to a new line */
 }
 
 /* Flicker effect */
