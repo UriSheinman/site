@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', function () {
     wrapCharactersWithSpan(header);
     wrapCharactersWithSpan(mainHeading);
     startFlickeringEffect();
+
+    // Start regular particles only if it's NOT the birthday
+    if (!isBirthday()) {
+        createRegularParticles(); // Create regular particles only when it's not a birthday
+    }
 });
 
 // Flicker effect with maximum 2 characters at a time and random neighboring flicker
@@ -144,6 +149,3 @@ function createRegularParticles() {
         initParticles(); // Re-initialize particles on resize
     });
 }
-
-// Create regular particles on page load
-document.addEventListener('DOMContentLoaded', function () {
