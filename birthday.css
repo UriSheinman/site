@@ -1,7 +1,7 @@
 /* Birthday message styling */
 #birthday-message {
-    position: relative;
-    top: 1.5rem;
+    position: relative; /* Change to relative positioning */
+    top: 1.5rem; /* Position 1.5rem below the element it's within */
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
