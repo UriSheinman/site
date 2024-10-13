@@ -1,8 +1,21 @@
+// Main JavaScript Code
+
+// Testing variable to enable or disable birthday mode
+const testBirthdayMode = false; // Set to true to test birthday effects
+
+// Function to check if it's birthday mode
+function isBirthday() {
+    const today = new Date();
+    const birthdayMonth = 12; // December
+    const birthdayDate = 29; // 29th
+    return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
+}
+
 // Update the year in the footer
 function updateYear() {
     const yearElement = document.getElementById('year');
     const currentYear = new Date().getFullYear();
-    yearElement.textContent = currentYear + 1;
+    yearElement.textContent = currentYear + 1; // Update year with next year
 }
 
 // Update year on page load
