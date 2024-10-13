@@ -90,18 +90,24 @@ function createRegularParticles() {
     const particleCount = 100;
 
     class Particle {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
+        constructor() {
+            // Store relative position instead of absolute position
+            this.relativeX = Math.random();
+            this.relativeY = Math.random();
+            this.x = this.relativeX * canvas.width;
+            this.y = this.relativeY * canvas.height;
             this.size = Math.random() * 2 + 1; // Increase size for better visibility
             this.speedX = (Math.random() * 0.5) - 0.25;
             this.speedY = (Math.random() * 0.5) - 0.25;
-            this.alpha = 1; // Full glow
         }
 
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
+
+            // Update relative position
+            this.relativeX = this.x / canvas.width;
+            this.relativeY = this.y / canvas.height;
 
             // Reset particle position if it goes off-screen
             if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
@@ -109,7 +115,7 @@ function createRegularParticles() {
         }
 
         draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; // White color with full alpha for glow
+            ctx.fillStyle = `rgba(255, 255, 255, 1)`; // White color with full alpha for glow
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.closePath();
@@ -120,9 +126,8 @@ function createRegularParticles() {
     function initParticles() {
         particlesArray = [];
         for (let i = 0; i < particleCount; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            particlesArray.push(new Particle(x, y));
+            const particle = new Particle();
+            particlesArray.push(particle);
         }
     }
 
@@ -146,6 +151,9 @@ function createRegularParticles() {
     window.addEventListener('resize', function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        initParticles(); // Re-initialize particles on resize
+        particlesArray.forEach(p => {
+            p.x = p.relativeX * canvas.width;
+            p.y = p.relativeY * canvas.height;
+        });
     });
 }
