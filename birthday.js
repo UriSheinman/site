@@ -1,5 +1,5 @@
 // Testing variable to enable or disable birthday mode
-const testBirthdayMode = true; // Set to true to test birthday effects
+const testBirthdayMode = false; // Set to true to test birthday effects
 
 // Check if today is the user's birthday or if test mode is enabled
 function isBirthday() {
@@ -23,7 +23,7 @@ if (isBirthday()) {
     }
 }
 
-// Confetti creation logic
+// Confetti creation logic with glow effect
 function createConfetti() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
@@ -37,27 +37,30 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    const particleCount = 150; // Reduced number of confetti particles for mobile
+    const particleCount = 150;
 
     class ConfettiParticle {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.size = Math.random() * 5 + 5; // Size of confetti
-            this.speedY = Math.random() * 3 + 1; // Falling speed
-            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
+            this.size = Math.random() * 5 + 5;
+            this.speedY = Math.random() * 3 + 1;
+            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            this.glow = Math.random() * 10 + 10; // Adding glow
         }
 
         update() {
             this.y += this.speedY;
             if (this.y > canvas.height) {
-                this.y = 0; // Reset to top if off screen
-                this.x = Math.random() * canvas.width; // Random x position
+                this.y = 0;
+                this.x = Math.random() * canvas.width;
             }
         }
 
         draw() {
             ctx.fillStyle = this.color;
+            ctx.shadowColor = this.color;
+            ctx.shadowBlur = this.glow; // Apply glow to confetti
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
