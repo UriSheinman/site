@@ -1,9 +1,9 @@
 /* Birthday message styling */
 #birthday-message {
     position: absolute; /* Absolute positioning */
-    top: 75%; /* Adjust this value to position it below the "Hi :)" message */
+    top: calc(60px + 10px); /* Adjust this based on the height of "Hi :)" and add space */
     left: 50%; /* Center horizontally */
-    transform: translate(-50%, 0); /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
     font-size: 2rem; /* Font size */
     color: #ffffff; /* Text color */
     z-index: 9999; /* High z-index to ensure visibility */
