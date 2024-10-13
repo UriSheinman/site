@@ -1,9 +1,9 @@
 /* Birthday message styling */
 #birthday-message {
-    position: relative;
-    top: 1.5rem; /* Position 1.5rem below the "Hi :)" message */
-    left: 50%;
-    transform: translateX(-50%);
+    position: absolute; /* Change to absolute positioning to maintain position relative to the viewport */
+    top: calc(50% + 1rem); /* Position directly below the "Hi :)" message, adjust as needed */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -100%); /* Adjust to center under the "Hi :)" message */
     font-size: 2rem;
     color: #ffffff;
     z-index: 9999;
@@ -23,9 +23,4 @@
     100% {
         opacity: 1;
     }
-}
-
-/* Styling for the "Hi :)" message container */
-#hi-message {
-    position: relative; /* Ensure relative positioning for the container */
 }
