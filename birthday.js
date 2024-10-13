@@ -1,5 +1,5 @@
 // Testing variable to enable or disable birthday mode
-const testBirthdayMode = false; // Set to true to test birthday effects
+const testBirthdayMode = true; // Set to true to test birthday effects
 
 // Check if today is the user's birthday or if test mode is enabled
 function isBirthday() {
@@ -23,7 +23,7 @@ if (isBirthday()) {
     }
 }
 
-// Confetti creation logic with glow effect
+// Confetti creation logic
 function createConfetti() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
@@ -37,30 +37,31 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    const particleCount = 150;
+    const particleCount = 150; // Reduced number of confetti particles for mobile
 
     class ConfettiParticle {
         constructor(x, y) {
-            this.x = x;
-            this.y = y;
-            this.size = Math.random() * 5 + 5;
-            this.speedY = Math.random() * 3 + 1;
-            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            this.glow = Math.random() * 10 + 10; // Adding glow
+            // Store relative position instead of absolute position
+            this.relativeX = x;
+            this.relativeY = y;
+            this.x = this.relativeX * canvas.width;
+            this.y = this.relativeY * canvas.height;
+            this.size = Math.random() * 5 + 5; // Size of confetti
+            this.speedY = Math.random() * 3 + 1; // Falling speed
+            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
         }
 
         update() {
             this.y += this.speedY;
             if (this.y > canvas.height) {
-                this.y = 0;
-                this.x = Math.random() * canvas.width;
+                this.y = 0; // Reset to top if off screen
+                this.x = Math.random() * canvas.width; // Random x position
+                this.relativeX = this.x / canvas.width; // Update relative position
             }
         }
 
         draw() {
             ctx.fillStyle = this.color;
-            ctx.shadowColor = this.color;
-            ctx.shadowBlur = this.glow; // Apply glow to confetti
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
@@ -70,8 +71,8 @@ function createConfetti() {
 
     function initConfetti() {
         for (let i = 0; i < particleCount; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
+            const x = Math.random();
+            const y = Math.random();
             particlesArray.push(new ConfettiParticle(x, y));
         }
     }
@@ -96,5 +97,9 @@ function createConfetti() {
     window.addEventListener('resize', function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        particlesArray.forEach(p => {
+            p.x = p.relativeX * canvas.width; // Update x based on relative position
+            p.y = p.relativeY * canvas.height; // Update y based on relative position
+        });
     });
 }
