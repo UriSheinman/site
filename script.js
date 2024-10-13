@@ -1,88 +1,31 @@
-// Main JavaScript Code
-
-// Testing variable to enable or disable birthday mode
-const testBirthdayMode = false; // Set to true to test birthday effects
-
-// Function to check if it's birthday mode
-function isBirthday() {
-    const today = new Date();
-    const birthdayMonth = 12; // December
-    const birthdayDate = 29; // 29th
-    return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
-}
-
-// Update the year in the footer
+// Update the year dynamically
 function updateYear() {
-    const yearElement = document.getElementById('year');
     const currentYear = new Date().getFullYear();
-    yearElement.textContent = currentYear + 1; // Update year with next year
-}
-
-// Update year on page load
-document.addEventListener('DOMContentLoaded', updateYear);
-
-// Function to redirect to a URL when header is clicked
-function redirectToUriSheinman() {
-    window.location.href = 'https://urisheinman.com';
-}
-
-// Attach event listeners
-document.querySelector('header').addEventListener('click', redirectToUriSheinman);
-
-// Function to wrap each character in a span
-function wrapCharactersWithSpan(element) {
-    const text = element.textContent;
-    const wrappedText = text.split('').map(char => char === ' ' ? ' ' : `<span>${char}</span>`).join('');
-    element.innerHTML = wrappedText;
-}
-
-// Apply wrapping to header and main content only
-document.addEventListener('DOMContentLoaded', function () {
-    const header = document.querySelector('header h1');
-    const mainHeading = document.querySelector('main h2');
-    wrapCharactersWithSpan(header);
-    wrapCharactersWithSpan(mainHeading);
-    startFlickeringEffect();
-});
-
-// Flicker effect with maximum 2 characters at a time and random neighboring flicker
-function startFlickeringEffect() {
-    const allSpans = document.querySelectorAll('header span, main span');
-    let activeFlickers = [];
-
-    function flickerLetter() {
-        if (activeFlickers.length >= 2) {
-            const spanToReset = activeFlickers.shift();
-            spanToReset.classList.remove('flicker');
-        }
-
-        let randomIndex = Math.floor(Math.random() * allSpans.length);
-        let randomSpan = allSpans[randomIndex];
-
-        if (!randomSpan.classList.contains('flicker')) {
-            randomSpan.classList.add('flicker');
-            activeFlickers.push(randomSpan);
-        }
-
-        // Random neighboring flicker logic
-        if (Math.random() < 0.2) {  // 20% chance of neighboring flicker
-            const neighborIndex = (randomIndex + 1) % allSpans.length;
-            const neighborSpan = allSpans[neighborIndex];
-            if (!neighborSpan.classList.contains('flicker')) {
-                neighborSpan.classList.add('flicker');
-                activeFlickers.push(neighborSpan);
-            }
-        }
-
-        const delay = Math.random() * 3000 + 500;  // Random delay between 0.5 to 3.5 seconds
-        setTimeout(flickerLetter, delay);
+    const yearElement = document.getElementById('year');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
     }
-
-    flickerLetter();
 }
 
-// Regular particle system (will only run if not the user's birthday)
-function createRegularParticles() {
+// Flickering effect for the page title
+function flickerTitle() {
+    const titleElement = document.title;
+    const flickerCount = 5; // Number of flickers
+    let currentFlicker = 0;
+
+    const intervalId = setInterval(() => {
+        document.title = currentFlicker % 2 === 0 ? 'Happy Birthday!' : titleElement;
+        currentFlicker++;
+
+        if (currentFlicker === flickerCount) {
+            clearInterval(intervalId);
+            document.title = titleElement; // Reset title after flickering
+        }
+    }, 500); // Flicker every 500 milliseconds
+}
+
+// Particle system for non-birthday days
+function createParticles() {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -94,30 +37,32 @@ function createRegularParticles() {
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    let particlesArray = [];
-    const particleCount = 100;
+    const particlesArray = [];
+    const particleCount = 100; // Number of particles
 
     class Particle {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-            this.size = Math.random() * 2 + 1; // Increase size for better visibility
-            this.speedX = (Math.random() * 0.5) - 0.25;
-            this.speedY = (Math.random() * 0.5) - 0.25;
-            this.alpha = 1; // Full glow
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 5 + 1; // Particle size
+            this.speedX = Math.random() * 5 - 2.5; // Random horizontal speed
+            this.speedY = Math.random() * 5 - 2.5; // Random vertical speed
+            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
         }
 
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // Reset particle position if it goes off-screen
-            if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-            if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            // Reset position if out of bounds
+            if (this.x > canvas.width || this.x < 0 || this.y > canvas.height || this.y < 0) {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+            }
         }
 
         draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`; // White color with full alpha for glow
+            ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.closePath();
@@ -126,19 +71,16 @@ function createRegularParticles() {
     }
 
     function initParticles() {
-        particlesArray = [];
         for (let i = 0; i < particleCount; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            particlesArray.push(new Particle(x, y));
+            particlesArray.push(new Particle());
         }
     }
 
     function handleParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-            particlesArray[i].draw();
+        for (let particle of particlesArray) {
+            particle.update();
+            particle.draw();
         }
     }
 
@@ -150,17 +92,14 @@ function createRegularParticles() {
     initParticles();
     animateParticles();
 
-    // Resize canvas when window is resized
+    // Resize canvas when the window is resized
     window.addEventListener('resize', function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        initParticles(); // Re-initialize particles on resize
     });
 }
 
-// Execute the birthday check on page load
-document.addEventListener('DOMContentLoaded', function () {
-    if (!document.getElementById('birthday-message').style.display) {
-        createRegularParticles(); // Only create regular particles if it's not a birthday
-    }
-});
+// Run functions
+updateYear();
+flickerTitle();
+createParticles();
