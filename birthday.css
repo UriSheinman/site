@@ -1,33 +1,24 @@
 /* Birthday message styling */
 #birthday-message {
-    font-family: 'SUSE', sans-serif;
-    font-size: 2rem;
-    color: #ffffff;
-    text-align: center;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
-    position: absolute;
-    top: 50%;
+    position: fixed;
+    top: calc(50% - 30px); /* Center vertically with some adjustment */
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
-    white-space: nowrap;
+    font-size: 48px; /* Size of the birthday message text */
+    color: gold; /* Color of the text */
+    z-index: 9999; /* Ensure it appears above other elements */
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.8); /* Glowing effect */
 }
 
-/* Confetti styling (optional glow) */
-canvas {
-    z-index: 0;
-}
-
-/* Confetti particles glowing effect */
-.confetti-glow {
-    animation: glow 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
+/* Flicker effect */
+@keyframes flicker {
     0% {
-        filter: brightness(100%);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5; /* Adjust flicker intensity */
     }
     100% {
-        filter: brightness(200%);
+        opacity: 1;
     }
 }
