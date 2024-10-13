@@ -1,5 +1,5 @@
 // Testing variable to enable or disable birthday mode
-const testBirthdayMode = false; // Set to true to test birthday effects
+const testBirthdayMode = true; // Set to true to test birthday effects
 
 // Check if today is the user's birthday or if test mode is enabled
 function isBirthday() {
