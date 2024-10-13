@@ -1,7 +1,7 @@
 /* Birthday message styling */
 #birthday-message {
     position: absolute; /* Absolute positioning */
-    top: 10%; /* Adjust this value to position it below the "Hi :)" message */
+    top: 60%; /* Adjust this value to position it below the "Hi :)" message */
     left: 50%; /* Center horizontally */
     transform: translate(-50%, 0); /* Center horizontally */
     font-size: 2rem; /* Font size */
