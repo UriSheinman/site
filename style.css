@@ -32,7 +32,7 @@ main {
     align-items: center;
     justify-content: center;
     text-align: center;
-    flex-direction: column; /* Added to stack elements vertically */
+    flex-direction: column; /* Stack elements vertically */
 }
 
 main h2 {
@@ -63,6 +63,21 @@ footer p {
     font-size: 0.9rem;
     color: #ffffff;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Increased glowing effect */
+}
+
+/* Social media icon styling */
+footer p a {
+    color: #ffffff; /* White color to match the website theme */
+    font-size: 1.5rem; /* Adjust icon size */
+    margin: 0 10px; /* Add some space between the icons */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Add glowing effect */
+}
+
+footer p a:hover {
+    color: #f1c40f; /* Change color on hover */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.9); /* Increase glow on hover */
 }
 
 /* Flicker effect */
