@@ -1,39 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="robots" content="noindex">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uri Sheinman</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="birthday.css"> <!-- Link to birthday CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
-    <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png">
-    <link rel="manifest" href="/assets/img/favicons/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="birthday.css">
+    <title>Your Website Title</title>
 </head>
 <body>
     <header>
-        <h1>URI SHEINMAN</h1>
+        <h1>Your Website Header</h1>
     </header>
+
     <main>
         <h2>Hi :)</h2>
-        <!-- The birthday message will be added dynamically by JavaScript -->
+        <div id="birthday-message" class="hidden">
+            It's my birthday!
+        </div>
     </main>
+
     <footer>
-        <p>Uri Sheinman © <span id="year"></span></p>
-        <p>info@UriSheinman.com</p>
-        <p>
-            <a href="https://instagram.com/urisheinman" target="_blank">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://github.com/UriSheinman" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-        </p>
+        <p>Email for info: your-email@example.com</p>
+        <div class="socials">
+            <a href="https://www.instagram.com/urisheinman" target="_blank">Instagram</a>
+            <a href="https://github.com/UriSheinman" target="_blank">GitHub</a>
+        </div>
     </footer>
+
     <script src="script.js"></script>
     <script src="birthday.js"></script>
 </body>
