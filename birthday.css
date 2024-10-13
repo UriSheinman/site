@@ -1,7 +1,7 @@
 /* Birthday message styling */
 #birthday-message {
-    position: fixed; /* Fixed positioning to keep it in place */
-    top: 7em; /* Adjust this value to position it just below the Hi message */
+    position: absolute; /* Change to absolute positioning */
+    top: calc(100% + 1rem); /* Position just below the Hi message */
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem; /* Size of the birthday message text */
