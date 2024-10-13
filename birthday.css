@@ -1,26 +1,26 @@
 /* Birthday message styling */
 #birthday-message {
-    position: absolute; /* Change to absolute positioning to maintain position relative to the viewport */
-    top: calc(50% + 1rem); /* Position directly below the "Hi :)" message, adjust as needed */
+    position: absolute; /* Keep it absolute for consistent positioning */
+    top: calc(50% + 1.5rem + 10px); /* Positioning it 10 pixels below "Hi :)" */
     left: 50%; /* Center horizontally */
-    transform: translate(-50%, -100%); /* Adjust to center under the "Hi :)" message */
-    font-size: 2rem;
-    color: #ffffff;
-    z-index: 9999;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
-    animation: flicker 1s infinite;
-    white-space: nowrap;
+    transform: translate(-50%, -100%); /* Center horizontally and move up by its own height */
+    font-size: 2rem; /* Font size */
+    color: #ffffff; /* Text color */
+    z-index: 9999; /* High z-index to ensure visibility */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Shadow effect */
+    animation: flicker 1s infinite; /* Flicker animation */
+    white-space: nowrap; /* Prevent line breaks */
 }
 
 /* Flicker effect */
 @keyframes flicker {
     0% {
-        opacity: 1;
+        opacity: 1; /* Fully visible */
     }
     50% {
-        opacity: 0.5;
+        opacity: 0.5; /* Partially visible */
     }
     100% {
-        opacity: 1;
+        opacity: 1; /* Fully visible */
     }
 }
