@@ -1,12 +1,9 @@
-// Testing variable to enable or disable birthday mode
-const testBirthdayMode = false; // Set to true to test birthday effects
-
-// Check if today is the user's birthday or if test mode is enabled
+// Function to check if today is the user's birthday
 function isBirthday() {
     const today = new Date();
     const birthdayMonth = 12; // December
     const birthdayDate = 29; // 29th
-    return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
+    return today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate;
 }
 
 // Create and show the birthday message if it's the user's birthday
@@ -37,7 +34,7 @@ function createConfetti() {
 
     const ctx = canvas.getContext('2d');
     const particlesArray = [];
-    const particleCount = 150; // Reduced number of confetti particles for mobile
+    const particleCount = 150; // Number of confetti particles
 
     class ConfettiParticle {
         constructor(x, y) {
@@ -93,6 +90,5 @@ function createConfetti() {
     window.addEventListener('resize', function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        initConfetti(); // Re-initialize confetti on resize
     });
 }
