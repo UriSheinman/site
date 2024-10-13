@@ -9,18 +9,8 @@ function isBirthday() {
     return testBirthdayMode || (today.getMonth() + 1 === birthdayMonth && today.getDate() === birthdayDate);
 }
 
-// Function to disable regular particles
-function disableRegularParticles() {
-    const particlesCanvas = document.querySelector('canvas'); // Assumes only one canvas for particles
-    if (particlesCanvas) {
-        particlesCanvas.remove(); // Remove the canvas to stop the particle animation
-    }
-}
-
 // Create and show the birthday message if it's the user's birthday
 if (isBirthday()) {
-    disableRegularParticles(); // Disable regular particles if it's the user's birthday
-
     // Check if the message already exists
     if (!document.getElementById('birthday-message')) {
         const birthdayMessage = document.createElement('div');
