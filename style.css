@@ -4,10 +4,10 @@ body {
     font-family: 'SUSE', sans-serif;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Set to full viewport height */
+    min-height: 100vh;
     background-color: #000000; /* Solid black background */
     color: #ffffff; /* White text */
-    overflow: hidden; /* Disable scrolling */
+    overflow: auto; /* Allow scrolling */
 }
 
 /* Header styling */
@@ -33,7 +33,6 @@ main {
     justify-content: center;
     text-align: center;
     flex-direction: column; /* Stack elements vertically */
-    height: calc(100vh - 60px); /* Adjust height to leave room for header and footer */
 }
 
 main h2 {
