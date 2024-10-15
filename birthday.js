@@ -1,5 +1,5 @@
 // Testing variable to enable or disable birthday mode
-const testBirthdayMode = false; // Set to true to test birthday effects
+const testBirthdayMode = true; // Set to true to test birthday effects
 
 // Check if today is the user's birthday or if test mode is enabled
 function isBirthday() {
@@ -41,7 +41,6 @@ function createConfetti() {
 
     class ConfettiParticle {
         constructor(x, y) {
-            // Store relative position instead of absolute position
             this.relativeX = x;
             this.relativeY = y;
             this.x = this.relativeX * canvas.width;
@@ -49,6 +48,7 @@ function createConfetti() {
             this.size = Math.random() * 5 + 5; // Size of confetti
             this.speedY = Math.random() * 3 + 1; // Falling speed
             this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Random color
+            this.glowColor = `hsl(${Math.random() * 360}, 100%, 75%)`; // Lighter color for glow
         }
 
         update() {
@@ -62,10 +62,17 @@ function createConfetti() {
 
         draw() {
             ctx.fillStyle = this.color;
+            ctx.shadowBlur = 20; // Amount of glow
+            ctx.shadowColor = this.glowColor; // Glow color
+
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.size, this.size);
             ctx.closePath();
             ctx.fill();
+
+            // Reset shadow after drawing
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
         }
     }
 
