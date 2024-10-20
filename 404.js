@@ -8,6 +8,18 @@ function updateYear() {
 // Update year on page load
 document.addEventListener('DOMContentLoaded', updateYear);
 
+// Function to update the 404 error message based on the current URL
+function updateErrorMessage() {
+    const errorMessageElement = document.getElementById('error-message');
+    const currentPath = window.location.pathname; // Get the current URL path
+    const formattedPath = currentPath === '/' ? '' : currentPath; // Format to remove leading '/'
+    
+    errorMessageElement.textContent = `404 - Hmm, I am not familiar with ${formattedPath}`;
+}
+
+// Call the function to update the message on page load
+document.addEventListener('DOMContentLoaded', updateErrorMessage);
+
 // Function to redirect to a URL when the header is clicked
 function redirectToUriSheinman() {
     window.location.href = 'https://urisheinman.com';
