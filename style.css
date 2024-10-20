@@ -109,4 +109,5 @@ footer p a:hover {
     text-align: center; /* Center the text */
     margin: 20px 0; /* Space around the message */
     max-width: 90%; /* Ensure it doesn't exceed 90% of the viewport width */
+    white-space: wrap; /* Wrap at whitespace */
 }
