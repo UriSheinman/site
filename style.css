@@ -102,12 +102,13 @@ footer p a:hover {
 /* Style for the 404 page message */
 .not-found-message {
     font-family: 'SUSE', sans-serif;
-    font-size: calc(5vw + 5vh); /* Responsive size based on viewport width and height */
-    font-weight: 400;
+    font-size: calc(3vw + 3vh); /* Adjusted size for better fit */
+    font-weight: 700; /* Make the text bold */
     color: #ffffff; /* White text */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
-    white-space: nowrap; /* Prevent text from wrapping */
-    line-height: 1; /* Adjust line height for spacing */
-    max-width: 100vw; /* Ensure it doesn't exceed the viewport width */
+    white-space: normal; /* Allow text to wrap to the next line */
+    line-height: 1.2; /* Adjust line height for spacing */
+    max-width: 90vw; /* Ensure it doesn't exceed 90% of the viewport width */
     text-align: center; /* Center the text */
+    padding: 20px; /* Optional: add some padding */
 }
