@@ -76,6 +76,7 @@ function startFlickeringEffect() {
 // Regular particle system
 function createRegularParticles() {
     const canvas = document.createElement('canvas');
+    canvas.id = 'particle-canvas';
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.style.position = 'fixed';
@@ -91,7 +92,6 @@ function createRegularParticles() {
 
     class Particle {
         constructor() {
-            // Store relative position instead of absolute position
             this.relativeX = Math.random();
             this.relativeY = Math.random();
             this.x = this.relativeX * canvas.width;
@@ -144,16 +144,31 @@ function createRegularParticles() {
         requestAnimationFrame(animateParticles);
     }
 
+    function resizeCanvas() {
+        const oldWidth = canvas.width;
+        const oldHeight = canvas.height;
+
+        // Update canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Recalculate particle positions proportionally
+        particlesArray.forEach(particle => {
+            particle.x = particle.relativeX * canvas.width;
+            particle.y = particle.relativeY * canvas.height;
+
+            // Adjust speed proportionally to avoid jumping
+            particle.speedX *= canvas.width / oldWidth;
+            particle.speedY *= canvas.height / oldHeight;
+        });
+    }
+
     initParticles();
     animateParticles();
 
-    // Resize canvas when window is resized
-    window.addEventListener('resize', function () {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        particlesArray.forEach(p => {
-            p.x = p.relativeX * canvas.width;
-            p.y = p.relativeY * canvas.height;
-        });
-    });
+    // Resize canvas and particles on window resize
+    window.addEventListener('resize', resizeCanvas);
 }
+
+// Call the function to create particles
+createRegularParticles();
