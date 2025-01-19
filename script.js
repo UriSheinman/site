@@ -2,7 +2,7 @@
 function updateYear() {
     const yearElement = document.getElementById('year');
     const currentYear = new Date().getFullYear();
-    yearElement.textContent = currentYear + 1; // Update year with next year
+    yearElement.textContent = currentYear; // Update year with next year
 }
 
 // Update year on page load
